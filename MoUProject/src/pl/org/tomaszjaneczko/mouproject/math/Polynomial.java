@@ -3,21 +3,22 @@ package pl.org.tomaszjaneczko.mouproject.math;
 import java.util.Arrays;
 
 /**
- * Class representing polynomials for use with the MoU
+ * Class representing polynomials for use with the MoU.
  * @author tomaszj
  *
  */
 public class Polynomial {
 
+    /** Coefficients of a polynomial. */
     private Double[] coefficients;
 
     /**
      * Public constructor which uses stripped coefficients.
-     * @param coefficients of a polynomial
+     * @param coeffs of a polynomial
      */
-    public Polynomial(final Double[] coefficients) {
+    public Polynomial(final Double[] coeffs) {
 
-        this.coefficients = getReducedCoeffs(coefficients);
+        coefficients = getReducedCoeffs(coeffs);
     }
 
     /**
@@ -25,7 +26,7 @@ public class Polynomial {
      * @param index of a coefficient
      * @return coefficient value
      */
-    public Double getCoefficient(final int index) {
+    public final Double getCoefficient(final int index) {
         return coefficients[index];
     }
 
@@ -33,7 +34,7 @@ public class Polynomial {
      * Method return the degree of a polynomial.
      * @return degree of a polynomial
      */
-    public int getDegree() {
+    public final int getDegree() {
         if (coefficients.length >= 1) {
             return coefficients.length - 1;
         } else {
@@ -42,13 +43,13 @@ public class Polynomial {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         PolynomialRenderer renderer = new PolynomialRenderer(this);
         return renderer.render();
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         return Arrays.equals(coefficients, ((Polynomial) obj).coefficients);
     }
 
@@ -73,17 +74,33 @@ public class Polynomial {
         if (nonzeroIndex < coeffs.length) {
             return Arrays.copyOfRange(coeffs, nonzeroIndex, coeffs.length);
         } else {
-            return new Double[] { 0.0 };
+            return new Double[] {0.0};
         }
     }
 
+    /**
+     * Class used for rendering the polynomials to a string.
+     * @author tomaszj
+     *
+     */
     private static class PolynomialRenderer {
+        /** Polynomial to be rendered. */
         private Polynomial polynomial;
 
+        /**
+         * Default constructor.
+         * @param poly polynomial
+         */
         public PolynomialRenderer(final Polynomial poly) {
             polynomial = poly;
         }
 
+        /**
+         * Method renders a single (unsigned) component without a coefficient.
+         * @param value The value of a coefficient
+         * @param index Its index in the array
+         * @return rendered coefficient
+         */
         private String renderCoefficient(final double value, final int index) {
             // Calculate the degree at current polynomial index
             int degreeOfPoly = polynomial.getDegree();
@@ -115,6 +132,12 @@ public class Polynomial {
             return result;
         }
 
+        /**
+         * Method renders a signed coefficient.
+         * @param value The value of a coefficient
+         * @param index Its index in the array
+         * @return rendered coefficient
+         */
         private String renderSignedCoefficient(final double value, final int index) {
 
             String renderedCoefficient = renderCoefficient(Math.abs(value), index);
@@ -140,6 +163,10 @@ public class Polynomial {
             }
         }
 
+        /**
+         * Method which renders the whole polynomial.
+         * @return rendered polynomial
+         */
         public String render() {
             StringBuilder stringBuilder = new StringBuilder();
             int degree = polynomial.getDegree();
