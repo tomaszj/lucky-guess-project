@@ -83,7 +83,7 @@ public class Polynomial {
      * @author tomaszj
      *
      */
-    private static class PolynomialRenderer {
+    private class PolynomialRenderer {
         /** Polynomial to be rendered. */
         private Polynomial polynomial;
 

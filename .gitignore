@@ -1,8 +1,11 @@
 MoUProject/bin
 MoUProject/.classpath
 MoUProject/.settings
+MoUProject/.checkstyle
+MoUProject/.project
 
 MoUProjectTest/bin
 MoUProjectTest/.classpath
 MoUProjectTest/.settings
-
+MoUProjectTest/.checkstyle
+MoUProjectTest/.project
