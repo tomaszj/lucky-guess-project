@@ -67,6 +67,9 @@ public class SolutionBasis {
                 // Create an array with coefficients of appropriate size - to fit all coeffs.
                 Double[] polynomialCoeffs = new Double[index + 1];
                 polynomialCoeffs[0] = 1.0;
+                for (int i = 1; i < polynomialCoeffs.length; i++) {
+                    polynomialCoeffs[i] = 0.0;
+                }
 
                 Polynomial poly = new Polynomial(polynomialCoeffs);
                 Exponential exponential = new Exponential(rootValue.getRealPart());

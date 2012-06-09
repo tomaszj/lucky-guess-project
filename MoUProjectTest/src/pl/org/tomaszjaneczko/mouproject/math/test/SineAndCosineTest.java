@@ -56,6 +56,10 @@ public class SineAndCosineTest {
                 new Double[] {6.0}), new Polynomial(new Double[] {1.0}));
 
         assertEquals(sineAndCosine3, sineAndCosine4);
+
+        SineAndCosine sineAndCosine5 = SineAndCosine.getSingularSineAndCosine();
+
+        assertEquals(sineAndCosine5, sineAndCosine5);
     }
 
     @Test

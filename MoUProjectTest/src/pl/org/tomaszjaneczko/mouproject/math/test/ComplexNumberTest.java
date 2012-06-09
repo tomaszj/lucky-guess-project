@@ -36,13 +36,16 @@ public class ComplexNumberTest {
         assertEquals("1.0+1.0i", complex1.toString());
 
         ComplexNumber complex2 = new ComplexNumber(0.0, 1.0);
-        assertEquals("1.0i", complex2.toString());
+        assertEquals("0.0+1.0i", complex2.toString());
 
         ComplexNumber complex3 = new ComplexNumber(1.0, 0.0);
-        assertEquals("1.0", complex3.toString());
+        assertEquals("1.0+0.0i", complex3.toString());
 
         ComplexNumber complex4 = new ComplexNumber(-1.0, -1.0);
         assertEquals("-1.0-1.0i", complex4.toString());
+
+        ComplexNumber complex5 = new ComplexNumber(0.0, 0.0);
+        assertEquals("0.0+0.0i", complex5.toString());
     }
 
     @Test

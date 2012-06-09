@@ -1,5 +1,4 @@
 /**
- * 
  */
 package pl.org.tomaszjaneczko.mouproject.math.ode;
 
@@ -59,11 +58,22 @@ public class SolutionComponent {
     }
 
     @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    @Override
     public final boolean equals(final Object obj) {
         SolutionComponent other = (SolutionComponent) obj;
         return polynomial.equals(other.polynomial)
                 && exponential.equals(other.exponential)
                 && sineAndCosine.equals(other.sineAndCosine);
+    }
+
+    @Override
+    public String toString() {
+        return "Solution component: " + polynomial.toString() + " "
+                + exponential.toString() + " " + sineAndCosine.toString();
     }
 
 }

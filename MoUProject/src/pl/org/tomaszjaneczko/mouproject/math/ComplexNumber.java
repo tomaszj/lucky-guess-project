@@ -41,6 +41,11 @@ public class ComplexNumber {
     }
 
     @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         ComplexNumber other = (ComplexNumber)obj;
         return realPart == other.realPart && imaginaryPart == other.imaginaryPart;
@@ -52,17 +57,14 @@ public class ComplexNumber {
         String imagPartString = String.valueOf(imaginaryPart) + "i";
 
         StringBuilder complexAsString = new StringBuilder();
-        if (realPart != 0.0) {
-            complexAsString.append(realPartString);
 
-            if (imaginaryPart > 0.0) {
-                complexAsString.append("+");
-            }
+        complexAsString.append(realPartString);
+
+        if (imaginaryPart >= 0.0) {
+            complexAsString.append("+");
         }
 
-        if (imaginaryPart != 0.0) {
-            complexAsString.append(imagPartString);
-        }
+        complexAsString.append(imagPartString);
 
         return complexAsString.toString();
 
