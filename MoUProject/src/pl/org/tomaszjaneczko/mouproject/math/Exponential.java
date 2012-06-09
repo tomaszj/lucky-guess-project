@@ -36,7 +36,7 @@ public class Exponential {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         Exponential other = (Exponential) obj;
         return exponentialCoefficient == other.exponentialCoefficient;
     }

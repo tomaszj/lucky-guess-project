@@ -63,4 +63,30 @@ public class SolutionComponentTest {
         return new SolutionComponent(polynomial, exponential, sinAndCos);
     }
 
+    /**
+     * Test for {@link pl.org.tomaszjaneczko.mouproject.math.ode.SolutionComponent}.
+     */
+    @Test
+    public void testSingularRendering() {
+        Polynomial polynomial = Polynomial.getSingularPolynomial();
+        Exponential exponential = Exponential.getSingularExponential();
+        SineAndCosine sinAndCos = SineAndCosine.getSingularSineAndCosine();
+        SolutionComponent component = new SolutionComponent(polynomial, exponential, sinAndCos);
+
+        assertEquals("1.0", component.toString());
+    }
+
+    /**
+     * Test for {@link pl.org.tomaszjaneczko.mouproject.math.ode.SolutionComponent}.
+     */
+    @Test
+    public void testFullRendering() {
+        SolutionComponent component = getExampleSolutionComponent();
+
+        assertEquals(
+                "(1.0*x+1.0)*e^(5.0*x)*((1.0*x+1.0)*sin(3.0*x)+(1.0*x+1.0)*cos(3.0*x))",
+                component.toString());
+    }
+
+
 }

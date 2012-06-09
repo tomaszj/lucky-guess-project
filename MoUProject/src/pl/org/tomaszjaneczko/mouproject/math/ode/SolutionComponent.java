@@ -58,7 +58,7 @@ public class SolutionComponent {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return 0;
     }
 
@@ -71,9 +71,60 @@ public class SolutionComponent {
     }
 
     @Override
-    public String toString() {
-        return "Solution component: " + polynomial.toString() + " "
-                + exponential.toString() + " " + sineAndCosine.toString();
+    public final String toString() {
+        SolutionStringRenderer renderer = new SolutionStringRenderer(this);
+        return renderer.render();
+    }
+
+    /**
+     * Class used to render string out of SolutionComponent.
+     * @author tomaszj
+     */
+    private class SolutionStringRenderer {
+
+        /** Component to be rendered. */
+        private SolutionComponent component;
+
+        /**
+         * Default constructor.
+         * @param solutionComp component to be rendered
+         */
+        public SolutionStringRenderer(final SolutionComponent solutionComp) {
+            component = solutionComp;
+        }
+
+        /**
+         * Method used to render the String.
+         * @return Rendered string.
+         */
+        public String render() {
+            StringBuilder result = new StringBuilder();
+
+            if (component.getPolynomial().getDegree() == 0) {
+                result.append(component.getPolynomial());
+            } else {
+                result.append("(");
+                result.append(component.getPolynomial());
+                result.append(")");
+            }
+
+            if (!Exponential.getSingularExponential().equals(component.getExponential())) {
+                // If the exponential is different from singular exponential
+                result.append("*");
+
+                result.append(component.getExponential());
+            }
+
+            if (!SineAndCosine.getSingularSineAndCosine().equals(component.getSineAndCosine())) {
+                result.append("*");
+                result.append("(");
+                result.append(component.getSineAndCosine());
+                result.append(")");
+            }
+
+            return result.toString();
+
+        }
     }
 
 }

@@ -90,18 +90,23 @@ public class SolutionBasis {
      */
     private class RootWithDegree {
 
-
+        /** Root value. */
         private ComplexNumber rootValue;
+
+        /** The degree of the root. */
         private int rootDegree = 1;
 
         /**
-         * @param rootValue
-         * @param rootDegree
+         * Default constructor.
+         * @param rootVal root value
          */
-        public RootWithDegree(final ComplexNumber rootValue) {
-            this.rootValue = rootValue;
+        public RootWithDegree(final ComplexNumber rootVal) {
+            this.rootValue = rootVal;
         }
 
+        /**
+         * Method which increases the degree by one.
+         */
         public void increaseDegree() {
             rootDegree++;
         }

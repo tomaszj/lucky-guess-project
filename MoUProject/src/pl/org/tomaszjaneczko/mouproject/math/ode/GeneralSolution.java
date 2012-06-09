@@ -22,6 +22,6 @@ public class GeneralSolution {
 
     @Override
     public final String toString() {
-        return super.toString();
+        return "";
     }
 }

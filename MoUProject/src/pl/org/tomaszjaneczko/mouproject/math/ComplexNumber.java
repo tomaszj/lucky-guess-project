@@ -41,13 +41,13 @@ public class ComplexNumber {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return 0;
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        ComplexNumber other = (ComplexNumber)obj;
+    public final boolean equals(final Object obj) {
+        ComplexNumber other = (ComplexNumber) obj;
         return realPart == other.realPart && imaginaryPart == other.imaginaryPart;
     }
 
