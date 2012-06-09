@@ -25,6 +25,11 @@ public abstract class PolynomialSolverFactory {
             double a = poly.getCoefficient(0);
             double b = poly.getCoefficient(1);
             return new BinomialSolver(a, b);
+        } else if (degreeOfPoly == 2) {
+            double a = poly.getCoefficient(0);
+            double b = poly.getCoefficient(1);
+            double c = poly.getCoefficient(2);
+            return new QuadraticSolver(a, b, c);
         } else {
             throw new IllegalArgumentException("Not yet implemented for higher order polynomials.");
         }
