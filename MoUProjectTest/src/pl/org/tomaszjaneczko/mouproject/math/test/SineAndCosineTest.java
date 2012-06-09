@@ -18,7 +18,7 @@ public class SineAndCosineTest {
     }
 
     @Test
-    public void testEquality() {
+    public void testNormalEquality() {
 
         SineAndCosine sineAndCosine1 = new SineAndCosine(1.5, new Polynomial(
                 new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
@@ -28,6 +28,34 @@ public class SineAndCosineTest {
 
         assertEquals(sineAndCosine1, sineAndCosine1);
         assertEquals(sineAndCosine2, sineAndCosine1);
+
+        SineAndCosine sineAndCosine3 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {0.0}), new Polynomial(new Double[] {1.0}));
+
+        SineAndCosine sineAndCosine4 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {0.0}), new Polynomial(new Double[] {1.0}));
+
+        assertEquals(sineAndCosine3, sineAndCosine3);
+        assertEquals(sineAndCosine3, sineAndCosine4);
+    }
+
+    @Test
+    public void testSingularEquality() {
+        SineAndCosine sineAndCosine1 = new SineAndCosine(3.0, new Polynomial(
+                new Double[] {0.0}), new Polynomial(new Double[] {0.0}));
+
+        SineAndCosine sineAndCosine2 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {0.0}), new Polynomial(new Double[] {0.0}));
+
+        assertEquals(sineAndCosine1, sineAndCosine2);
+
+        SineAndCosine sineAndCosine3 = new SineAndCosine(0.0, new Polynomial(
+                new Double[] {5.0}), new Polynomial(new Double[] {1.0}));
+
+        SineAndCosine sineAndCosine4 = new SineAndCosine(0.0, new Polynomial(
+                new Double[] {6.0}), new Polynomial(new Double[] {1.0}));
+
+        assertEquals(sineAndCosine3, sineAndCosine4);
     }
 
     @Test
@@ -47,6 +75,14 @@ public class SineAndCosineTest {
                 new Double[] {0.0}), new Polynomial(new Double[] {1.0}));
 
         assertFalse(sineAndCosine3.equals(sineAndCosine4));
+
+        SineAndCosine sineAndCosine5 = new SineAndCosine(0.0, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {2.0}));
+
+        SineAndCosine sineAndCosine6 = new SineAndCosine(0.0, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+
+        assertFalse(sineAndCosine5.equals(sineAndCosine6));
     }
 
     @Test

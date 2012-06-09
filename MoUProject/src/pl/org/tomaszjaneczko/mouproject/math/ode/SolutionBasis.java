@@ -1,12 +1,16 @@
 /**
- * 
  */
 package pl.org.tomaszjaneczko.mouproject.math.ode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
+import pl.org.tomaszjaneczko.mouproject.math.ComplexNumber;
+import pl.org.tomaszjaneczko.mouproject.math.Exponential;
 import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
+import pl.org.tomaszjaneczko.mouproject.math.SineAndCosine;
 
 /**
  * @author tomaszj
@@ -15,14 +19,103 @@ import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
 public class SolutionBasis {
 
     /** Solution components in the solution basis. */
-    private final List<SolutionComponent> solutionComponents;
+    private final Set<SolutionComponent> solutionComponents;
+
 
     /**
      * Default constructor.
-     * @param characteristicEquation used to determine the solution components.
+     * @param roots used to determine the solution components.
      */
-    public SolutionBasis(final Polynomial characteristicEquation) {
+    public SolutionBasis(final ComplexNumber[] roots) {
+        solutionComponents = new HashSet<SolutionComponent>();
 
-        solutionComponents = new ArrayList<SolutionComponent>();
+        findSolutionComponents(roots);
+    }
+
+    /**
+     * @return the solutionComponents
+     */
+    public final Set<SolutionComponent> getSolutionComponents() {
+        return solutionComponents;
+    }
+
+    /**
+     * Method finds solution components based on roots.
+     * @param roots of a characteristic equation
+     */
+    private void findSolutionComponents(final ComplexNumber[] roots) {
+        // Reduce the roots
+
+        Map<ComplexNumber, RootWithDegree> rootsMap = new HashMap<ComplexNumber, RootWithDegree>();
+
+        for (ComplexNumber root : roots) {
+            RootWithDegree rootWithDegree = rootsMap.get(root);
+            if (rootWithDegree == null) {
+                rootsMap.put(root, new RootWithDegree(root));
+            } else {
+                rootWithDegree.increaseDegree();
+            }
+
+        }
+
+        Set<RootWithDegree> rootWithDegrees = new HashSet<RootWithDegree>(rootsMap.values());
+
+        for (RootWithDegree root : rootWithDegrees) {
+            ComplexNumber rootValue = root.getRootValue();
+
+            for (int index = 0; index < root.getRootDegree(); index++) {
+                // Create an array with coefficients of appropriate size - to fit all coeffs.
+                Double[] polynomialCoeffs = new Double[index + 1];
+                polynomialCoeffs[0] = 1.0;
+
+                Polynomial poly = new Polynomial(polynomialCoeffs);
+                Exponential exponential = new Exponential(rootValue.getRealPart());
+
+                Polynomial constant = new Polynomial(new Double[]{1.0});
+                SineAndCosine sineAndCosine = new SineAndCosine(
+                        rootValue.getImaginaryPart(), constant, constant);
+
+                solutionComponents.add(new SolutionComponent(poly, exponential, sineAndCosine));
+            }
+        }
+    }
+
+    /**
+     * Class representing a poly's root with its' degree.
+     * @author tomaszj
+     *
+     */
+    private class RootWithDegree {
+
+
+        private ComplexNumber rootValue;
+        private int rootDegree = 1;
+
+        /**
+         * @param rootValue
+         * @param rootDegree
+         */
+        public RootWithDegree(final ComplexNumber rootValue) {
+            this.rootValue = rootValue;
+        }
+
+        public void increaseDegree() {
+            rootDegree++;
+        }
+
+        /**
+         * @return the rootValue
+         */
+        public final ComplexNumber getRootValue() {
+            return rootValue;
+        }
+
+        /**
+         * @return the rootDegree
+         */
+        public final int getRootDegree() {
+            return rootDegree;
+        }
+
     }
 }

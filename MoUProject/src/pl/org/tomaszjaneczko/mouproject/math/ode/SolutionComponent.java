@@ -37,6 +37,27 @@ public class SolutionComponent {
         sineAndCosine = sinAndCos;
     }
 
+    /**
+     * @return the polynomial
+     */
+    public final Polynomial getPolynomial() {
+        return polynomial;
+    }
+
+    /**
+     * @return the exponential
+     */
+    public final Exponential getExponential() {
+        return exponential;
+    }
+
+    /**
+     * @return the sineAndCosine
+     */
+    public final SineAndCosine getSineAndCosine() {
+        return sineAndCosine;
+    }
+
     @Override
     public final boolean equals(final Object obj) {
         SolutionComponent other = (SolutionComponent) obj;

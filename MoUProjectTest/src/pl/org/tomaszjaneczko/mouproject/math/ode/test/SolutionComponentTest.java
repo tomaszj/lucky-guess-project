@@ -15,6 +15,21 @@ public class SolutionComponentTest {
      * Test for {@link pl.org.tomaszjaneczko.mouproject.math.ode.SolutionComponent}.
      */
     @Test
+    public void testCreation() {
+        Polynomial polynomial = new Polynomial(new Double[] {1.0, 1.0});
+        Exponential exponential = new Exponential(5.0);
+        SineAndCosine sinAndCos = new SineAndCosine(3.0, polynomial, polynomial);
+        SolutionComponent component = new SolutionComponent(polynomial, exponential, sinAndCos);
+
+        assertEquals(polynomial, component.getPolynomial());
+        assertEquals(exponential, component.getExponential());
+        assertEquals(sinAndCos, component.getSineAndCosine());
+    }
+
+    /**
+     * Test for {@link pl.org.tomaszjaneczko.mouproject.math.ode.SolutionComponent}.
+     */
+    @Test
     public void testEquality() {
         SolutionComponent component1 = getExampleSolutionComponent();
         SolutionComponent component2 = getExampleSolutionComponent();

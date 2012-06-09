@@ -34,6 +34,14 @@ public class SineAndCosine {
         cosinePolynomial = cosinePoly;
     }
 
+    /**
+     * Method returns a singular trig component.
+     * @return singular sine and cosine
+     */
+    public static SineAndCosine getSingularSineAndCosine() {
+        return new SineAndCosine(0.0, new Polynomial(new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+    }
+
     @Override
     public final String toString() {
         SineAndCosineRenderer renderer = new SineAndCosineRenderer(this);
@@ -64,9 +72,32 @@ public class SineAndCosine {
     @Override
     public boolean equals(final Object obj) {
         SineAndCosine other = (SineAndCosine) obj;
-        return trigCoefficient == other.trigCoefficient
-                && sinePolynomial.equals(other.sinePolynomial)
-                && cosinePolynomial.equals(other.cosinePolynomial);
+
+        // Check if both are singular (zero polynomials on both sides)
+        boolean isThisSingular = sinePolynomial.equals(Polynomial
+                .getZeroPolynomial())
+                && cosinePolynomial.equals(Polynomial.getZeroPolynomial());
+
+        boolean isOtherSingular = other.sinePolynomial.equals(Polynomial
+                .getZeroPolynomial())
+                && other.cosinePolynomial.equals(Polynomial.getZeroPolynomial());
+
+        if (isThisSingular && isOtherSingular) {
+            return true;
+        }
+
+        // Not singular, let's proceed further
+        if (trigCoefficient == other.trigCoefficient) {
+            if (trigCoefficient == 0.0) {
+                // Singular case! only cos(phi) part is non-zero
+                return cosinePolynomial.equals(other.cosinePolynomial);
+            } else {
+                return sinePolynomial.equals(other.sinePolynomial)
+                        && cosinePolynomial.equals(other.cosinePolynomial);
+            }
+        } else {
+            return false;
+        }
     }
 
     /**

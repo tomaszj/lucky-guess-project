@@ -22,6 +22,22 @@ public class Polynomial {
     }
 
     /**
+     * Convenience method, which returns a zero polynomial (y = 0).
+     * @return zero polynomial
+     */
+    public static Polynomial getZeroPolynomial() {
+        return new Polynomial(new Double[] {0.0});
+    }
+
+    /**
+     * Convenience method, which returns a singular polynomial (y = 1).
+     * @return singular polynomial
+     */
+    public static Polynomial getSingularPolynomial() {
+        return new Polynomial(new Double[] {1.0});
+    }
+
+    /**
      * Method returns a coefficient at given index.
      * @param index of a coefficient
      * @return coefficient value

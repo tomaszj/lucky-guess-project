@@ -20,6 +20,14 @@ public class Exponential {
     }
 
     /**
+     * Method return a singular exponential.
+     * @return singular exponential
+     */
+    public static Exponential getSingularExponential() {
+        return new Exponential(0.0);
+    }
+
+    /**
      * Getter for exponential coefficient.
      * @return exponential coefficient
      */
