@@ -33,9 +33,16 @@ public class SolutionBasis {
     }
 
     /**
+     * No-arg constructor.
+     */
+    public SolutionBasis() {
+        solutionComponents = new HashSet<SolutionComponent>();
+    }
+
+    /**
      * @return the solutionComponents
      */
-    public final Set<SolutionComponent> getSolutionComponents() {
+    public Set<SolutionComponent> getSolutionComponents() {
         return solutionComponents;
     }
 
@@ -101,7 +108,7 @@ public class SolutionBasis {
          * @param rootVal root value
          */
         public RootWithDegree(final ComplexNumber rootVal) {
-            this.rootValue = rootVal;
+            rootValue = rootVal;
         }
 
         /**

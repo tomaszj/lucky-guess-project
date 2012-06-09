@@ -52,14 +52,18 @@ public class SolutionComponentTest {
     public static SolutionComponent getExampleSolutionComponent() {
         Polynomial polynomial = new Polynomial(new Double[] {1.0, 1.0});
         Exponential exponential = new Exponential(5.0);
-        SineAndCosine sinAndCos = new SineAndCosine(3.0, polynomial, polynomial);
+
+        Polynomial trigPoly = new Polynomial(new Double[] {1.0});
+        SineAndCosine sinAndCos = new SineAndCosine(3.0, trigPoly, trigPoly);
         return new SolutionComponent(polynomial, exponential, sinAndCos);
     }
 
     public static SolutionComponent getDifferentSolutionComponent() {
         Polynomial polynomial = new Polynomial(new Double[] {1.0, 1.0});
         Exponential exponential = new Exponential(3.0);
-        SineAndCosine sinAndCos = new SineAndCosine(3.0, polynomial, polynomial);
+
+        Polynomial trigPoly = new Polynomial(new Double[] {1.0});
+        SineAndCosine sinAndCos = new SineAndCosine(3.0, trigPoly, trigPoly);
         return new SolutionComponent(polynomial, exponential, sinAndCos);
     }
 
@@ -73,7 +77,7 @@ public class SolutionComponentTest {
         SineAndCosine sinAndCos = SineAndCosine.getSingularSineAndCosine();
         SolutionComponent component = new SolutionComponent(polynomial, exponential, sinAndCos);
 
-        assertEquals("1.0", component.toString());
+        assertEquals("(1.0)", component.toString());
     }
 
     /**
@@ -84,7 +88,7 @@ public class SolutionComponentTest {
         SolutionComponent component = getExampleSolutionComponent();
 
         assertEquals(
-                "(1.0*x+1.0)*e^(5.0*x)*((1.0*x+1.0)*sin(3.0*x)+(1.0*x+1.0)*cos(3.0*x))",
+                "(1.0*x+1.0)*e^(5.0*x)*((1.0)*sin(3.0*x)+(1.0)*cos(3.0*x))",
                 component.toString());
     }
 

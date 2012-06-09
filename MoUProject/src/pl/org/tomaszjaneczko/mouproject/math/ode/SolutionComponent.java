@@ -100,13 +100,9 @@ public class SolutionComponent {
         public String render() {
             StringBuilder result = new StringBuilder();
 
-            if (component.getPolynomial().getDegree() == 0) {
-                result.append(component.getPolynomial());
-            } else {
-                result.append("(");
-                result.append(component.getPolynomial());
-                result.append(")");
-            }
+            result.append("(");
+            result.append(component.getPolynomial());
+            result.append(")");
 
             if (!Exponential.getSingularExponential().equals(component.getExponential())) {
                 // If the exponential is different from singular exponential

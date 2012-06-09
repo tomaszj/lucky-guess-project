@@ -22,6 +22,25 @@ public class GeneralSolution {
 
     @Override
     public final String toString() {
-        return "";
+        int index = 0;
+        StringBuilder result = new StringBuilder();
+        for (SolutionComponent component : solutionBasis.getSolutionComponents()) {
+
+            if (index > 0) {
+                // Consecutive element
+                result.append("+");
+            }
+
+            result.append("C");
+            result.append(index);
+            result.append("*");
+
+            result.append(component.toString());
+
+            index++;
+        }
+
+        return result.toString();
     }
+
 }
