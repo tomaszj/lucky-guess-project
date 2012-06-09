@@ -61,6 +61,14 @@ public class SineAndCosine {
         return trigCoefficient;
     }
 
+    @Override
+    public boolean equals(final Object obj) {
+        SineAndCosine other = (SineAndCosine) obj;
+        return trigCoefficient == other.trigCoefficient
+                && sinePolynomial.equals(other.sinePolynomial)
+                && cosinePolynomial.equals(other.cosinePolynomial);
+    }
+
     /**
      * Class which is responsible for rendering string from SineAndCosine.
      * @author tomaszj
@@ -72,7 +80,8 @@ public class SineAndCosine {
 
         /**
          * Default constructor.
-         * @param sinAndCos SineAndCosine object to be rendered.
+         * @param sinAndCos
+         *            SineAndCosine object to be rendered.
          */
         public SineAndCosineRenderer(final SineAndCosine sinAndCos) {
             sineAndCosine = sinAndCos;

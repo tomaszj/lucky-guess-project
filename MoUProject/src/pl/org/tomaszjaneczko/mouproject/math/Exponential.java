@@ -28,6 +28,12 @@ public class Exponential {
     }
 
     @Override
+    public boolean equals(final Object obj) {
+        Exponential other = (Exponential) obj;
+        return exponentialCoefficient == other.exponentialCoefficient;
+    }
+
+    @Override
     public final String toString() {
         if (exponentialCoefficient == 0) {
             return "1";

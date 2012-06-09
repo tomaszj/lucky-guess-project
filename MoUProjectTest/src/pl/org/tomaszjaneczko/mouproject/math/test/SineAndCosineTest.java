@@ -18,6 +18,38 @@ public class SineAndCosineTest {
     }
 
     @Test
+    public void testEquality() {
+
+        SineAndCosine sineAndCosine1 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+
+        SineAndCosine sineAndCosine2 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+
+        assertEquals(sineAndCosine1, sineAndCosine1);
+        assertEquals(sineAndCosine2, sineAndCosine1);
+    }
+
+    @Test
+    public void testInequality() {
+        SineAndCosine sineAndCosine1 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+
+        SineAndCosine sineAndCosine2 = new SineAndCosine(0.0, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+
+        assertFalse(sineAndCosine1.equals(sineAndCosine2));
+
+        SineAndCosine sineAndCosine3 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {1.0}), new Polynomial(new Double[] {1.0}));
+
+        SineAndCosine sineAndCosine4 = new SineAndCosine(1.5, new Polynomial(
+                new Double[] {0.0}), new Polynomial(new Double[] {1.0}));
+
+        assertFalse(sineAndCosine3.equals(sineAndCosine4));
+    }
+
+    @Test
     public void testToString() {
         SineAndCosine sineAndCosine1 = new SineAndCosine(1.5, new Polynomial(
                 new Double[] {1.0}), new Polynomial(new Double[] {1.0}));

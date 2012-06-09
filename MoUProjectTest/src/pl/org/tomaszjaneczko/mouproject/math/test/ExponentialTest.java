@@ -21,6 +21,23 @@ public class ExponentialTest {
     }
 
     @Test
+    public void testEquality() {
+        Exponential exponent1 = new Exponential(-1.0);
+        Exponential exponent2 = new Exponential(-1.0);
+
+        assertEquals(exponent1, exponent1);
+        assertEquals(exponent1, exponent2);
+    }
+
+    @Test
+    public void testInequality() {
+        Exponential exponent1 = new Exponential(-1.0);
+        Exponential exponent2 = new Exponential(1.0);
+
+        assertFalse(exponent1.equals(exponent2));
+    }
+
+    @Test
     public void testRendering() {
         Exponential exponent1 = new Exponential(-1.0);
         assertEquals("e^(-1.0*x)", exponent1.toString());
