@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import pl.org.tomaszjaneczko.mouproject.math.HomogenousDifferentialEquation;
 import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
+import pl.org.tomaszjaneczko.mouproject.math.ode.HomogenousDifferentialEquation;
 
 public class HomogenousDifferentialEquationTest {
 

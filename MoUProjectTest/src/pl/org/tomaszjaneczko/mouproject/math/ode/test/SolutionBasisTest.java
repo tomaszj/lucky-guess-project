@@ -232,17 +232,33 @@ public class SolutionBasisTest {
                 new Exponential(-1.0),
                 new SineAndCosine(
                         1.0, Polynomial.getSingularPolynomial(),
-                        Polynomial.getSingularPolynomial()));
+                        Polynomial.getZeroPolynomial()));
 
         SolutionComponent component2 = new SolutionComponent(
+                Polynomial.getSingularPolynomial(),
+                new Exponential(-1.0),
+                new SineAndCosine(
+                        1.0, Polynomial.getZeroPolynomial(),
+                        Polynomial.getSingularPolynomial()));
+
+        SolutionComponent component3 = new SolutionComponent(
                 new Polynomial(new Double[] {1.0, 0.0}),
                 new Exponential(-1.0),
                 new SineAndCosine(
                         1.0, Polynomial.getSingularPolynomial(),
+                        Polynomial.getZeroPolynomial()));
+
+        SolutionComponent component4 = new SolutionComponent(
+                new Polynomial(new Double[] {1.0, 0.0}),
+                new Exponential(-1.0),
+                new SineAndCosine(
+                        1.0, Polynomial.getZeroPolynomial(),
                         Polynomial.getSingularPolynomial()));
 
         assertTrue(solutionComponents.contains(component1));
         assertTrue(solutionComponents.contains(component2));
+        assertTrue(solutionComponents.contains(component3));
+        assertTrue(solutionComponents.contains(component4));
     }
 
 }

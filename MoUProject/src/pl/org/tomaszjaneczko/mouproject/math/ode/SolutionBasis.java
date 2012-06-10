@@ -81,9 +81,21 @@ public class SolutionBasis {
                 Polynomial poly = new Polynomial(polynomialCoeffs);
                 Exponential exponential = new Exponential(rootValue.getRealPart());
 
-                Polynomial constant = new Polynomial(new Double[]{1.0});
-                SineAndCosine sineAndCosine = new SineAndCosine(
-                        rootValue.getImaginaryPart(), constant, constant);
+                SineAndCosine sineAndCosine;
+                double trigCoefficient = rootValue.getImaginaryPart();
+                if (trigCoefficient == 0) {
+                    sineAndCosine = SineAndCosine.getSingularSineAndCosine();
+                } else if (trigCoefficient > 0) {
+                    // Associate with sine
+                    sineAndCosine = new SineAndCosine(trigCoefficient,
+                            Polynomial.getSingularPolynomial(),
+                            Polynomial.getZeroPolynomial());
+                } else {
+                    // Associate with cosine
+                    sineAndCosine = new SineAndCosine(Math.abs(trigCoefficient),
+                            Polynomial.getZeroPolynomial(),
+                            Polynomial.getSingularPolynomial());
+                }
 
                 solutionComponents.add(new SolutionComponent(poly, exponential, sineAndCosine));
             }

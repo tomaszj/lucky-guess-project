@@ -1,11 +1,13 @@
 /**
  *
  */
-package pl.org.tomaszjaneczko.mouproject.math;
+package pl.org.tomaszjaneczko.mouproject.math.ode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
 
 /**
  * This class helps describing DEs of form a_(n)*y'{n}+a_(n-1)*y'{n-1} + ... +
