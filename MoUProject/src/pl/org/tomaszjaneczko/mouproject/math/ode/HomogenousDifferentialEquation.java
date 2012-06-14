@@ -47,6 +47,35 @@ public class HomogenousDifferentialEquation {
     }
 
     /**
+     * Method returns a degree for differential equation.
+     *
+     * For DE with y' the degree is equal to 1.
+     * For DE with y'' the degree is equal to 2, etc.
+     *
+     * @return Degree of a differential equation
+     */
+    public final int getDegree() {
+        return coefficients.length - 1;
+    }
+
+    /**
+     * Method returns a coefficient for a given degree.
+     *
+     * If a DE is of a form 5y'' + y' = 0, then for degree 2 its value is 5.
+     *
+     * @param desiredDegree of a coefficient
+     * @return coefficient value
+     */
+    public final double getCoefficientForDegree(final int desiredDegree) {
+        if (desiredDegree < 0 || desiredDegree > getDegree()) {
+            throw new IllegalArgumentException("Wrong degree to be accessed!");
+        } else {
+            int desiredIndex = coefficients.length - desiredDegree - 1;
+            return coefficients[desiredIndex];
+        }
+    }
+
+    /**
      * Method returns the simplest array for given coefficients. It's task is to
      * strip following zeros, which provide no particular information.
      *

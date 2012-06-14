@@ -4,6 +4,7 @@
 package pl.org.tomaszjaneczko.mouproject.math.ode;
 
 /**
+ * Class describing a general soltion to the differential equation.
  * @author tomaszj
  *
  */

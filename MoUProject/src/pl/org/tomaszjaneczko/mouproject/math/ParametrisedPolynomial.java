@@ -120,6 +120,11 @@ public class ParametrisedPolynomial {
         return resultPoly;
     }
 
+    /**
+     * Method multiplies a polynomial by a given scalar.
+     * @param scalar used to multiply
+     * @return multiplied polynomial
+     */
     public final ParametrisedPolynomial multiplyByScalar(final double scalar) {
         ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(params.length);
 

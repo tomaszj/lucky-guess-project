@@ -42,6 +42,11 @@ public class Exponential {
     }
 
     @Override
+    public final int hashCode() {
+        return 0;
+    }
+
+    @Override
     public final String toString() {
         if (exponentialCoefficient == 0) {
             return "1";

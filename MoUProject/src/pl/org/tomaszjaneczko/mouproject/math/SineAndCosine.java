@@ -70,7 +70,7 @@ public class SineAndCosine {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         SineAndCosine other = (SineAndCosine) obj;
 
         // Check if both are singular (zero polynomials on both sides)
@@ -98,6 +98,11 @@ public class SineAndCosine {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public final int hashCode() {
+        return 0;
     }
 
     /**

@@ -69,6 +69,11 @@ public class Polynomial {
         return Arrays.equals(coefficients, ((Polynomial) obj).coefficients);
     }
 
+    @Override
+    public final int hashCode() {
+        return 0;
+    }
+
     /**
      * Method returns the simplest array for given coefficients.
      * It's task is to strip following zeros, which provide no particular information.
