@@ -38,12 +38,39 @@ public class Polynomial {
     }
 
     /**
+     * Convenience method, which returns a single argument polynomial.
+     * Example:
+     * For degree = 1: x
+     * For degree = 2: x^2
+     * For degree = 4: x^4
+     * @param degree of target polynomial
+     * @return single argument polynomial of a given degree
+     */
+    public static Polynomial getSingleArgumentPolynomialOfDegree(final int degree) {
+        Double[] coeffs = new Double[degree + 1];
+        Arrays.fill(coeffs, 0.0);
+
+        coeffs[0] = 1.0;
+
+        return new Polynomial(coeffs);
+    }
+
+    /**
      * Method returns a coefficient at given index.
      * @param index of a coefficient
      * @return coefficient value
      */
     public final Double getCoefficient(final int index) {
         return coefficients[index];
+    }
+
+    /**
+     * Method returns a coefficient for given degree.
+     * @param degree of a coefficient
+     * @return coefficient value
+     */
+    public final Double getCoefficientForDegree(final int degree) {
+        return coefficients[getDegree() - degree];
     }
 
     /**

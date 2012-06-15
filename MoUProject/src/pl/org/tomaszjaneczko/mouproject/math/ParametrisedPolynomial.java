@@ -36,7 +36,7 @@ public class ParametrisedPolynomial {
 
         int matrixSize = parameters.length;
 
-        paramValues = createZeroMatrixOfSize(matrixSize);
+        paramValues = createZeroMatrixForDegreeAndParamsCount(matrixSize - 1, matrixSize);
 
         for (int i = 0; i < matrixSize; i++) {
             paramValues[i][i] = 1.0;
@@ -50,7 +50,13 @@ public class ParametrisedPolynomial {
     protected ParametrisedPolynomial(final int size) {
         params = new String[size];
 
-        paramValues = createZeroMatrixOfSize(size);
+        paramValues = createZeroMatrixForDegreeAndParamsCount(size - 1, size);
+    }
+
+    protected ParametrisedPolynomial(final int degree, final int paramsCount) {
+        params = new String[paramsCount];
+
+        paramValues = createZeroMatrixForDegreeAndParamsCount(degree, paramsCount);
     }
 
     /**
@@ -69,7 +75,7 @@ public class ParametrisedPolynomial {
     public final Map<String, Double> getParamValuesForDegree(final int degree) {
 
         Map<String, Double> paramsMap = new HashMap<String, Double>();
-        int indexOfDegree = params.length - degree - 1;
+        int indexOfDegree = getPolynomialDegree() - degree;
 
         for (int i = 0; i < params.length; i++) {
             paramsMap.put(params[i], paramValues[indexOfDegree][i]);
@@ -87,7 +93,7 @@ public class ParametrisedPolynomial {
 
         Double[] result = new Double[params.length];
 
-        int indexOfDegree = params.length - degree - 1;
+        int indexOfDegree = getPolynomialDegree() - degree;
 
         for (int i = 0; i < params.length; i++) {
             result[i] = paramValues[indexOfDegree][i];
@@ -104,14 +110,14 @@ public class ParametrisedPolynomial {
     public final ParametrisedPolynomial add(final ParametrisedPolynomial poly) {
         ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(params.length);
 
-        if (!Arrays.equals(params, poly.params)) {
+        if (!Arrays.equals(params, poly.params) || getPolynomialDegree() != poly.getPolynomialDegree()) {
             // Throw an exception if arrays aren't equal
             throw new IllegalArgumentException("Param arrays should be the same!");
         }
 
         resultPoly.params = params;
 
-        for (int i = 0; i < params.length; i++) {
+        for (int i = 0; i <= getPolynomialDegree(); i++) {
             for (int j = 0; j < params.length; j++) {
                 resultPoly.paramValues[i][j] = paramValues[i][j] + poly.paramValues[i][j];
             }
@@ -126,13 +132,36 @@ public class ParametrisedPolynomial {
      * @return multiplied polynomial
      */
     public final ParametrisedPolynomial multiplyByScalar(final double scalar) {
-        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(params.length);
+        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(
+                getPolynomialDegree(), params.length);
 
         resultPoly.params = params;
 
-        for (int i = 0; i < params.length; i++) {
+        for (int i = 0; i <= getPolynomialDegree(); i++) {
             for (int j = 0; j < params.length; j++) {
                 resultPoly.paramValues[i][j] = paramValues[i][j] * scalar;
+            }
+        }
+
+        return resultPoly;
+    }
+
+    public final ParametrisedPolynomial multiplyByPolynomial(final Polynomial polynomial) {
+        int polynomialDegree = polynomial.getDegree();
+
+        // Extend the polynomial to appropriate size.
+        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(
+                getPolynomialDegree() + polynomialDegree, params.length);
+        resultPoly.params = params;
+
+        for (int polynomialDegreeIndex = 0; polynomialDegreeIndex <= polynomialDegree; polynomialDegreeIndex++) {
+            ParametrisedPolynomial scaledPoly = this.multiplyByScalar(polynomial
+                    .getCoefficientForDegree(polynomialDegreeIndex));
+
+            for (int i = 0; i <= getPolynomialDegree(); i++) {
+                for (int j = 0; j < params.length; j++) {
+                    resultPoly.paramValues[i + polynomialDegree - polynomialDegreeIndex][j] += scaledPoly.paramValues[i][j];
+                }
             }
         }
 
@@ -152,11 +181,12 @@ public class ParametrisedPolynomial {
      * @return differentiated polynomial
      */
     public final ParametrisedPolynomial differentiate() {
-        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(params.length);
+        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(
+                getPolynomialDegree(), params.length);
         resultPoly.params = params;
 
-        for (int powerIndex = 0; powerIndex < params.length - 1; powerIndex++) {
-            int powerValue = params.length - powerIndex - 1;
+        for (int powerIndex = 0; powerIndex <= getPolynomialDegree() - 1; powerIndex++) {
+            int powerValue = getPolynomialDegree() - powerIndex;
 
             for (int j = 0; j < params.length; j++) {
                 resultPoly.paramValues[powerIndex + 1][j] = powerValue * paramValues[powerIndex][j];
@@ -167,22 +197,41 @@ public class ParametrisedPolynomial {
     }
 
     /**
+     * Factory method used to create a zero polynomial using given parameters.
+     * @param params Parameters used in a polynomial
+     * @return zero parametrised polynomial
+     */
+    public static ParametrisedPolynomial zeroPolynomial(final String[] params) {
+        ParametrisedPolynomial poly = new ParametrisedPolynomial(params.length);
+        poly.params = params;
+
+        return poly;
+    }
+
+    /**
      * Method creates a matrix with all elements set to zero.
-     * @param size of the matrix
+     * @param degree of a polynomial
+     * @param paramsCount count of params used
      * @return zero matrix
      */
-    private Double[][] createZeroMatrixOfSize(final int size) {
+    private Double[][] createZeroMatrixForDegreeAndParamsCount(final int degree, final int paramsCount) {
 
-        Double[][] zeroMatrix = new Double[size][size];
+        Double[][] zeroMatrix = new Double[degree + 1][paramsCount];
 
         // Zero the values of the matrix
-        for (Double[] vector : zeroMatrix) {
-            for (int i = 0; i < vector.length; i++) {
-                vector[i] = 0.0;
-            }
+        for (Double[] row : zeroMatrix) {
+            Arrays.fill(row, 0.0);
         }
 
         return zeroMatrix;
+    }
+
+    private int getPolynomialDegree() {
+        if (paramValues.length == 0) {
+            return 0;
+        } else {
+            return paramValues.length - 1; // Number of rows determines the degree of a polynomial
+        }
     }
 
 }

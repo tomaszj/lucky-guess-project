@@ -10,6 +10,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import pl.org.tomaszjaneczko.mouproject.math.ParametrisedPolynomial;
+import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
 
 public class ParametrisedPolynomialTest {
 
@@ -79,6 +80,48 @@ public class ParametrisedPolynomialTest {
     }
 
     @Test
+    public void testMultiplyBySingularPolynomial() {
+        // Test singular case - multiplying by 1
+        Polynomial simplePoly = Polynomial.getSingularPolynomial();
+        String[] params = new String[] {"A", "B"}; // Ax^2 + Bx + C
+        ParametrisedPolynomial paramPoly1 = new ParametrisedPolynomial(params);
+
+        ParametrisedPolynomial resultPoly1 = paramPoly1.multiplyByPolynomial(simplePoly);
+
+        assertArrayEquals(new Double[] {1.0, 0.0}, resultPoly1.getParamValuesForDegreeAsArray(1));
+        assertArrayEquals(new Double[] {0.0, 1.0}, resultPoly1.getParamValuesForDegreeAsArray(0));
+
+    }
+
+    @Test
+    public void testMultiplyBySingleArgumentBinomial() {
+        // Let's multiply by x
+        Polynomial poly = Polynomial.getSingleArgumentPolynomialOfDegree(1);
+        String[] params = new String[] {"A", "B"}; // Ax^2 + Bx + C
+        ParametrisedPolynomial paramPoly1 = new ParametrisedPolynomial(params);
+
+        ParametrisedPolynomial resultPoly1 = paramPoly1.multiplyByPolynomial(poly);
+
+        assertArrayEquals(new Double[] {1.0, 0.0}, resultPoly1.getParamValuesForDegreeAsArray(2));
+        assertArrayEquals(new Double[] {0.0, 1.0}, resultPoly1.getParamValuesForDegreeAsArray(1));
+        assertArrayEquals(new Double[] {0.0, 0.0}, resultPoly1.getParamValuesForDegreeAsArray(0));
+    }
+
+    @Test
+    public void testMultiplyByBinomial() {
+        // Let's multiply by x
+        Polynomial poly = new Polynomial(new Double[] {2.0, 1.0});
+        String[] params = new String[] {"A", "B"}; // Ax^2 + Bx + C
+        ParametrisedPolynomial paramPoly1 = new ParametrisedPolynomial(params);
+
+        ParametrisedPolynomial resultPoly1 = paramPoly1.multiplyByPolynomial(poly);
+
+        assertArrayEquals(new Double[] {2.0, 0.0}, resultPoly1.getParamValuesForDegreeAsArray(2));
+        assertArrayEquals(new Double[] {1.0, 2.0}, resultPoly1.getParamValuesForDegreeAsArray(1));
+        assertArrayEquals(new Double[] {0.0, 1.0}, resultPoly1.getParamValuesForDegreeAsArray(0));
+    }
+
+    @Test
     public void testGetParamMatrix() {
         String[] params = new String[] {"A"};
 
@@ -87,10 +130,23 @@ public class ParametrisedPolynomialTest {
         assertTrue(paramMatrix[0][0] == 1.0);
         assertTrue(paramMatrix.length == 1);
         assertTrue(paramMatrix[0].length == 1);
+
+        String[] params2 = new String[] {"A", "B"};
+
+        ParametrisedPolynomial poly = new ParametrisedPolynomial(params2);
+        Double[][] paramMatrix2 = poly.getParamMatrix();
+        assertTrue(paramMatrix2[0][0] == 1.0);
+        assertTrue(paramMatrix2[0][1] == 0.0);
+        assertTrue(paramMatrix2[1][0] == 0.0);
+        assertTrue(paramMatrix2[1][1] == 1.0);
+        assertTrue(paramMatrix2.length == 2);
+        assertTrue(paramMatrix2[0].length == 2);
+
+
     }
 
     @Test
-    public void testSimpleDifferentiate() {
+    public void testSimpleDifferentiation() {
         String[] params = new String[] {"A"};
 
         ParametrisedPolynomial simplePoly = new ParametrisedPolynomial(params);
@@ -101,7 +157,7 @@ public class ParametrisedPolynomialTest {
     }
 
     @Test
-    public void testDifferentiate() {
+    public void testDifferentiation() {
         String[] params = new String[] {"A", "B"};
 
         ParametrisedPolynomial simplePoly = new ParametrisedPolynomial(params);
@@ -115,7 +171,7 @@ public class ParametrisedPolynomialTest {
     }
 
     @Test
-    public void testBiggerDifferentiate() {
+    public void testBiggerDifferentiation() {
         String[] params = new String[] {"A", "B", "C"};
 
         ParametrisedPolynomial simplePoly = new ParametrisedPolynomial(params);

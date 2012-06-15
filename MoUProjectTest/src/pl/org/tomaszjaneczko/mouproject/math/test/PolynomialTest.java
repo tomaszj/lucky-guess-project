@@ -29,6 +29,46 @@ public class PolynomialTest {
     }
 
     @Test
+    public void testCoefficientForDegree() {
+        Polynomial polynomial1 = new Polynomial(new Double[]{ 0.0 });
+        assertEquals(polynomial1.getCoefficientForDegree(0), new Double(0.0));
+
+        Polynomial polynomial2 = new Polynomial(new Double[]{ 1.0 });
+        assertEquals(polynomial2.getCoefficientForDegree(0), new Double(1.0));
+
+        Polynomial polynomial3 = new Polynomial(new Double[]{ 1.0, 1.0 });
+        assertEquals(polynomial3.getCoefficientForDegree(1), new Double(1.0));
+        assertEquals(polynomial3.getCoefficientForDegree(0), new Double(1.0));
+
+        Polynomial polynomial4 = new Polynomial(new Double[]{ 1.0, 1.0, 1.0 });
+        assertEquals(polynomial4.getCoefficientForDegree(2), new Double(1.0));
+        assertEquals(polynomial4.getCoefficientForDegree(1), new Double(1.0));
+        assertEquals(polynomial4.getCoefficientForDegree(0), new Double(1.0));
+
+        Polynomial polynomial5 = new Polynomial(new Double[]{ 1.0, 0.0, 0.0 });
+        assertEquals(polynomial5.getCoefficientForDegree(2), new Double(1.0));
+        assertEquals(polynomial5.getCoefficientForDegree(1), new Double(0.0));
+        assertEquals(polynomial5.getCoefficientForDegree(0), new Double(0.0));
+
+        Polynomial polynomial6 = new Polynomial(new Double[]{ 0.0, 1.0, 0.0, 0.0 });
+        assertEquals(polynomial6.getCoefficientForDegree(2), new Double(1.0));
+        assertEquals(polynomial6.getCoefficientForDegree(1), new Double(0.0));
+        assertEquals(polynomial6.getCoefficientForDegree(0), new Double(0.0));
+    }
+
+    @Test
+    public void testSingleArgumentPolynomial() {
+        Polynomial polynomial1 = Polynomial.getSingleArgumentPolynomialOfDegree(1);
+        assertEquals(polynomial1, new Polynomial(new Double[] {1.0, 0.0}));
+
+        Polynomial polynomial2 = Polynomial.getSingleArgumentPolynomialOfDegree(2);
+        assertEquals(polynomial2, new Polynomial(new Double[] {1.0, 0.0, 0.0}));
+
+        Polynomial polynomial3 = Polynomial.getSingleArgumentPolynomialOfDegree(4);
+        assertEquals(polynomial3, new Polynomial(new Double[] {1.0, 0.0, 0.0, 0.0, 0.0}));
+    }
+
+    @Test
     public void testRendering() {
         Polynomial polynomial1 = new Polynomial(new Double[]{ 0.0 });
         assertEquals("0.0", polynomial1.toString());
