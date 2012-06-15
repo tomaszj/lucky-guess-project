@@ -181,4 +181,21 @@ public class ParametrisedPolynomialTest {
         assertEquals(new Double(2.0), paramMatrix[1][0]); // 2*A*x
         assertEquals(new Double(1.0), paramMatrix[2][1]); // B
     }
+
+    @Test
+    public void testPolynomialEvaluation() {
+        String[] params = new String[] {"A"};
+
+        ParametrisedPolynomial simplePoly = new ParametrisedPolynomial(params);
+        Polynomial evaluatedPoly = simplePoly.getPolynomialForParameterValues(new Double[] {3.0});
+
+        assertTrue(new Polynomial(new Double[] {3.0}).equals(evaluatedPoly));
+
+        String[] params2 = new String[] {"A", "B"};
+
+        ParametrisedPolynomial poly2 = new ParametrisedPolynomial(params2);
+        Polynomial evaluatedPoly2 = poly2.getPolynomialForParameterValues(new Double[] {3.0, 2.0});
+
+        assertTrue(new Polynomial(new Double[] {3.0, 2.0}).equals(evaluatedPoly2));
+    }
 }

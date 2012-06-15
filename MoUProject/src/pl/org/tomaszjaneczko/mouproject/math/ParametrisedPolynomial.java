@@ -53,6 +53,13 @@ public class ParametrisedPolynomial {
         paramValues = createZeroMatrixForDegreeAndParamsCount(size - 1, size);
     }
 
+    /**
+     * Constructor creating a parametrised polynomial of a given degree with
+     * specific number of parameters.
+     *
+     * @param degree of a polynomial
+     * @param paramsCount Count of parameters used. They still need to be set!
+     */
     protected ParametrisedPolynomial(final int degree, final int paramsCount) {
         params = new String[paramsCount];
 
@@ -108,7 +115,7 @@ public class ParametrisedPolynomial {
      * @return sum of two polynomials
      */
     public final ParametrisedPolynomial add(final ParametrisedPolynomial poly) {
-        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(params.length);
+        ParametrisedPolynomial resultPoly = new ParametrisedPolynomial(getPolynomialDegree(), params.length);
 
         if (!Arrays.equals(params, poly.params) || getPolynomialDegree() != poly.getPolynomialDegree()) {
             // Throw an exception if arrays aren't equal
@@ -146,6 +153,11 @@ public class ParametrisedPolynomial {
         return resultPoly;
     }
 
+    /**
+     * Method multiplies the parametrised polynomial by a polynomial given.
+     * @param polynomial to be used for multiplication
+     * @return multiplied parametrised polynomial
+     */
     public final ParametrisedPolynomial multiplyByPolynomial(final Polynomial polynomial) {
         int polynomialDegree = polynomial.getDegree();
 
@@ -160,7 +172,8 @@ public class ParametrisedPolynomial {
 
             for (int i = 0; i <= getPolynomialDegree(); i++) {
                 for (int j = 0; j < params.length; j++) {
-                    resultPoly.paramValues[i + polynomialDegree - polynomialDegreeIndex][j] += scaledPoly.paramValues[i][j];
+                    resultPoly.paramValues[i + polynomialDegree
+                                           - polynomialDegreeIndex][j] += scaledPoly.paramValues[i][j];
                 }
             }
         }
@@ -196,6 +209,26 @@ public class ParametrisedPolynomial {
         return resultPoly;
     }
 
+    public final Polynomial getPolynomialForParameterValues(final Double[] values) {
+        Double[] coefficients = new Double[paramValues.length];
+
+        if (params.length != values.length) {
+            throw new IllegalArgumentException("Parameters and values arrays don't match!");
+        }
+
+        for (int i = 0; i < paramValues.length; i++) {
+
+            double sum = 0;
+            for (int j = 0; j < params.length; j++) {
+                sum += paramValues[i][j] * values[j];
+            }
+
+            coefficients[i] = sum;
+        }
+
+        return new Polynomial(coefficients);
+    }
+
     /**
      * Factory method used to create a zero polynomial using given parameters.
      * @param params Parameters used in a polynomial
@@ -226,6 +259,10 @@ public class ParametrisedPolynomial {
         return zeroMatrix;
     }
 
+    /**
+     * Method returns a polynomial degree.
+     * @return polynomial degree
+     */
     private int getPolynomialDegree() {
         if (paramValues.length == 0) {
             return 0;
