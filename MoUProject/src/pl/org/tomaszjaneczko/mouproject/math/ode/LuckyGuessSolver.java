@@ -9,8 +9,9 @@ import pl.org.tomaszjaneczko.mouproject.math.ParametrisedPolynomial;
 import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
 import pl.org.tomaszjaneczko.mouproject.math.SineAndCosine;
 import pl.org.tomaszjaneczko.mouproject.math.polysolvers.IPolynomialSolver;
+import pl.org.tomaszjaneczko.mouproject.math.polysolvers.ParameterMatrixSolver;
 import pl.org.tomaszjaneczko.mouproject.math.polysolvers.PolynomialSolverFactory;
-import Jama.Matrix;
+import pl.org.tomaszjaneczko.mouproject.math.polysolvers.WrongParameterMatrixException;
 
 /**
  * Class which solves linear differential equations with constant coefficients.
@@ -66,6 +67,7 @@ public class LuckyGuessSolver {
         // Create parameter names
         String[] params = ParametrisedPolynomial.getDefaultParamsOfCount(mainPolynomial.getDegree() + 1);
 
+        //TODO: Full component should be placed here
         ParametrisedPolynomial paramPoly = new ParametrisedPolynomial(params);
         paramPoly = paramPoly.multiplyByPolynomial(multiplierPolynomial);
 
@@ -80,50 +82,21 @@ public class LuckyGuessSolver {
         }
 
         Double[][] parametrisedPolyMatrix = totalPoly.getParamMatrix();
-
-        // We've got the poly ready for calculation
-        double[][] tableA = new double[parametrisedPolyMatrix.length][parametrisedPolyMatrix[0].length];
-        for (int i = 0; i < tableA.length; i++) {
-            for (int j = 0; j < tableA[0].length; j++) {
-                tableA[i][j] = parametrisedPolyMatrix[i][j];
-            }
+        Double[] mainPolynomialCoefficients = new Double[mainPolynomial.getDegree() + 1];
+        for (int i = 0; i <= mainPolynomial.getDegree(); i++) {
+            mainPolynomialCoefficients[i] = mainPolynomial.getCoefficient(i);
         }
 
-        // Get the matrix B
-        double[] vectorB = new double[params.length];
-        for (int i = 0; i < vectorB.length; i++) {
-            vectorB[i] = mainPolynomial.getCoefficient(i);
-        }
+        ParameterMatrixSolver matrixSolver = new ParameterMatrixSolver(
+                parametrisedPolyMatrix, mainPolynomialCoefficients);
+        try {
+            Double[] paramsSolution = matrixSolver.solve();
 
-        Matrix matrixA = new Matrix(tableA);
-        Matrix matrixB = new Matrix(vectorB, 1).transpose();
-
-
-        Matrix nonSingularMatrix = null;
-        for (int i = 0; i <= matrixA.getRowDimension() - matrixA.getColumnDimension(); i++) {
-            Matrix subMatrixA = matrixA.getMatrix(i,
-                    i + matrixA.getColumnDimension() - 1, 0,
-                    matrixA.getColumnDimension() - 1);
-
-            if (subMatrixA.rank() == subMatrixA.getRowDimension()) {
-                nonSingularMatrix = subMatrixA;
-                break;
-            }
-        }
-
-        if (nonSingularMatrix == null) {
-            //CRAP!
-        } else {
-            double[] solution = nonSingularMatrix.solve(matrixB).getRowPackedCopy();
-            Double[] solutionAsObjects = new Double[solution.length];
-
-            for (int i = 0; i < solution.length; i++) {
-                solutionAsObjects[i] = solution[i];
-            }
-
-            Polynomial polynomial = paramPoly.getPolynomialForParameterValues(solutionAsObjects);
+            Polynomial polynomial = paramPoly.getPolynomialForParameterValues(paramsSolution);
 
             particularSolution = polynomial.toString();
+        } catch (WrongParameterMatrixException e) {
+            // TODO: handle exception
         }
     }
 
