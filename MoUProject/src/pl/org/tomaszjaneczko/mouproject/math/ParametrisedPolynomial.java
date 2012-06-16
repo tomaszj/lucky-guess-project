@@ -209,6 +209,11 @@ public class ParametrisedPolynomial {
         return resultPoly;
     }
 
+    /**
+     * Method evaluates Parametrised Polynomial using given values and returns respective polynomial.
+     * @param values of consecutive parameters
+     * @return evaluated polynomial
+     */
     public final Polynomial getPolynomialForParameterValues(final Double[] values) {
         Double[] coefficients = new Double[paramValues.length];
 
@@ -239,6 +244,20 @@ public class ParametrisedPolynomial {
         poly.params = params;
 
         return poly;
+    }
+
+    /**
+     * Method creates an array of default params for given count. It's in the form of "a1", "a2", "a3", etc.
+     * @param count of params requested
+     * @return list of params
+     */
+    public static String[] getDefaultParamsOfCount(final int count) {
+        String[] params = new String[count];
+        for (int i = 0; i < count; i++) {
+            params[i] = "a" + String.valueOf(i + 1);
+        }
+
+        return params;
     }
 
     /**

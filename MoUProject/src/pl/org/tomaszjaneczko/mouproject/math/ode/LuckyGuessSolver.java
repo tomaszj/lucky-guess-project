@@ -49,20 +49,22 @@ public class LuckyGuessSolver {
                 Exponential.getSingularExponential(),
                 SineAndCosine.getSingularSineAndCosine());
 
+        // Check if the independent coefficient is a root of characteristic equation
         int rootMultiplier = 0;
         for (ComplexNumber root : roots) {
-            if (root.getRealPart() == 0.0) {
+            if (root.getRealPart() == independentComponent.getExponential()
+                    .getExponentialCoefficient()
+                    && root.getImaginaryPart() == independentComponent
+                    .getSineAndCosine().getTrigCoefficient()) {
                 rootMultiplier++;
             }
         }
 
+        // Based on the multiplier of the root, find an appropriate (single argument) polynomial, to multiply the independent eqn.
         Polynomial multiplierPolynomial = Polynomial.getSingleArgumentPolynomialOfDegree(rootMultiplier);
 
-        int mainPolynomialDegree = mainPolynomial.getDegree();
-        String[] params = new String[mainPolynomialDegree + 1];
-        for (int i = 0; i <= mainPolynomialDegree; i++) {
-            params[i] = "a" + String.valueOf(i + 1);
-        }
+        // Create parameter names
+        String[] params = ParametrisedPolynomial.getDefaultParamsOfCount(mainPolynomial.getDegree() + 1);
 
         ParametrisedPolynomial paramPoly = new ParametrisedPolynomial(params);
         paramPoly = paramPoly.multiplyByPolynomial(multiplierPolynomial);

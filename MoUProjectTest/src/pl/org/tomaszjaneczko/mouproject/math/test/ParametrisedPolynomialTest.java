@@ -198,4 +198,15 @@ public class ParametrisedPolynomialTest {
 
         assertTrue(new Polynomial(new Double[] {3.0, 2.0}).equals(evaluatedPoly2));
     }
+
+    @Test
+    public void testDefaultParamsCreation() {
+        String[] expectedParams1 = new String[] {"a1", "a2"};
+        String[] params1 = ParametrisedPolynomial.getDefaultParamsOfCount(2);
+        assertTrue(Arrays.equals(expectedParams1, params1));
+
+        String[] expectedParams2 = new String[] {"a1", "a2", "a3", "a4"};
+        String[] params2 = ParametrisedPolynomial.getDefaultParamsOfCount(4);
+        assertTrue(Arrays.equals(expectedParams2, params2));
+    }
 }
