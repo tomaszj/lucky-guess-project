@@ -84,18 +84,10 @@ public class QuadraticSolverTest {
     /*
      * Test method for {@link pl.org.tomaszjaneczko.mouproject.math.polysolvers.BinomialSolver#findRoots()}.
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testRootsWithFailingCoefficients() {
-        try {
-            QuadraticSolver solver = new QuadraticSolver(0, 0, 0);
-            solver.findRoots();
-            fail("It should have failed");
-        } catch (IllegalArgumentException e) {
-            // If reaches this point, it's fine
-        } catch (Exception e) {
-            fail("It should have thrown IllegalArgumentException");
-        }
-
+        QuadraticSolver solver = new QuadraticSolver(0, 0, 0);
+        solver.findRoots();
     }
 
     private static boolean isAResultPresentInSet(final ComplexNumber result, final ComplexNumber[] resultSet) {

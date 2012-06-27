@@ -20,16 +20,12 @@ public class ParametrisedComponentTest {
     /**
      * Test method for {@link pl.org.tomaszjaneczko.mouproject.math.ParametrisedComponent#differentiate()}.
      */
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testFailsDifferentiation() {
         ParametrisedComponent component = new ParametrisedComponent();
 
-        try {
-            component.differentiate();
-            fail("Should have failed.");
-        } catch (IllegalArgumentException e) {
-            // Do nothing - expected.
-        }
+        component.differentiate();
+        fail("Should have failed.");
     }
 
     /**
