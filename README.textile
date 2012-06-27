@@ -1,6 +1,7 @@
 h1. Method of Undetermined Coefficients Project
 
 h2. Description
+
 This is a project which allows simple solving of linear differential equations with constant coefficients using the method of undetermined coefficients (known also as a lucky guess method). The aim is to provide object-oriented base for solving this problem, as well as a place for enhancements.
 
 h2. Features
@@ -18,13 +19,13 @@ h2. Used technologies and libraries
 * Standard Widget Toolkit for UI (http://www.eclipse.org/swt/)
 
 h2. Project structure
+
 Project is divided into two parts:
 * The source for the application
 * JUnit tests project
 
-
-
 h2. License
+
 This software is released under a MIT license. See the full description in the LICENSE file.
 
 
