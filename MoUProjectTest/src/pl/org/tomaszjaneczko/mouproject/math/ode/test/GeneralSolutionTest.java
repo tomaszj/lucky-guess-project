@@ -8,20 +8,20 @@ import static org.junit.Assert.*;
 
 import pl.org.tomaszjaneczko.mouproject.math.ode.GeneralSolution;
 import pl.org.tomaszjaneczko.mouproject.math.ode.SolutionBasis;
-import pl.org.tomaszjaneczko.mouproject.math.ode.SolutionComponent;
+import pl.org.tomaszjaneczko.mouproject.math.ode.EquationComponent;
 
 public class GeneralSolutionTest {
 
     @Test
     public void testGeneralSolutionRendering() {
 
-        final SolutionComponent component1 = SolutionComponentTest.getExampleSolutionComponent();
-        final SolutionComponent component2 = SolutionComponentTest.getDifferentSolutionComponent();
+        final EquationComponent component1 = SolutionComponentTest.getExampleSolutionComponent();
+        final EquationComponent component2 = SolutionComponentTest.getDifferentSolutionComponent();
 
         SolutionBasis basis = new SolutionBasis() {
             @Override
-            public Set<SolutionComponent> getSolutionComponents() {
-                Set<SolutionComponent> components = new HashSet<SolutionComponent>();
+            public Set<EquationComponent> getSolutionComponents() {
+                Set<EquationComponent> components = new HashSet<EquationComponent>();
                 components.add(component1);
                 components.add(component2);
                 return components;

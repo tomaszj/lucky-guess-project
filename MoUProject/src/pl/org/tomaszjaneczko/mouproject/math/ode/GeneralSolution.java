@@ -25,7 +25,7 @@ public class GeneralSolution {
     public final String toString() {
         int index = 0;
         StringBuilder result = new StringBuilder();
-        for (SolutionComponent component : solutionBasis.getSolutionComponents()) {
+        for (EquationComponent component : solutionBasis.getSolutionComponents()) {
 
             if (index > 0) {
                 // Consecutive element

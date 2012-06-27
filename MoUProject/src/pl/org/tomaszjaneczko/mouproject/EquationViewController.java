@@ -8,6 +8,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 
+import pl.org.tomaszjaneczko.mouproject.math.ode.CalculationFailedException;
 import pl.org.tomaszjaneczko.mouproject.math.ode.LuckyGuessSolver;
 
 /**
@@ -76,6 +77,28 @@ public class EquationViewController {
 
                     alertDialog.open();
                     return;
+                } catch (CalculationFailedException e) {
+                    MessageBox alertDialog = new MessageBox(context);
+
+                    String reason = null;
+
+                    switch (e.getReason()) {
+                    case NO_SOLVABLE_PARAMETER_MATRIX_FOUND:
+                        reason = "Nie znaleziono rozwiązywalnej macierzy parametrów. "
+                                + "Skontaktuj się z autorem aby usprawnić program.";
+                        break;
+
+                    default:
+                        reason = "Nastąpił nieznany problem. Skontaktuj się z autorem, aby naprawić błąd.";
+                        break;
+                    }
+
+                    alertDialog.setMessage(reason);
+                    alertDialog.setText("Błąd!");
+
+                    alertDialog.open();
+                    return;
+
                 }
 
             }

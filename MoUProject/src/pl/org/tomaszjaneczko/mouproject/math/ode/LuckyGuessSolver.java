@@ -1,13 +1,14 @@
 /**
- * 
  */
 package pl.org.tomaszjaneczko.mouproject.math.ode;
 
 import pl.org.tomaszjaneczko.mouproject.math.ComplexNumber;
 import pl.org.tomaszjaneczko.mouproject.math.Exponential;
+import pl.org.tomaszjaneczko.mouproject.math.ParametrisedComponent;
 import pl.org.tomaszjaneczko.mouproject.math.ParametrisedPolynomial;
 import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
 import pl.org.tomaszjaneczko.mouproject.math.SineAndCosine;
+import pl.org.tomaszjaneczko.mouproject.math.ode.CalculationFailedException.CalculationFailedReason;
 import pl.org.tomaszjaneczko.mouproject.math.polysolvers.IPolynomialSolver;
 import pl.org.tomaszjaneczko.mouproject.math.polysolvers.ParameterMatrixSolver;
 import pl.org.tomaszjaneczko.mouproject.math.polysolvers.PolynomialSolverFactory;
@@ -19,18 +20,40 @@ import pl.org.tomaszjaneczko.mouproject.math.polysolvers.WrongParameterMatrixExc
  */
 public class LuckyGuessSolver {
 
+    /** Homogenous differential equation. */
     private HomogenousDifferentialEquation diffEqn;
+
+    /** Independent equation (of x variable). */
     private String independentEqn;
 
+    /** General solution of the DE. */
     private GeneralSolution generalSolution;
-    private String particularSolution;
 
+    /** Particular solution of the DE. */
+    private ParticularSolution particularSolution;
+
+    /**
+     * Default constructor for LuckyGuessSolver, used to solve linear
+     * differential equation with constant coefficients using method of
+     * variation of parameters.
+     *
+     * @param diffCoefficients
+     *            Coefficients for derivatives of y
+     * @param nonDiffCoefficient
+     *            Coefficient for y
+     * @param indieEqn
+     *            Independent equation
+     */
     public LuckyGuessSolver(final Double[] diffCoefficients, final Double nonDiffCoefficient, final String indieEqn) {
         diffEqn = new HomogenousDifferentialEquation(diffCoefficients, nonDiffCoefficient);
         independentEqn = indieEqn;
     }
 
-    public void solve() {
+    /**
+     * Solves the linear differential equation.
+     * @throws CalculationFailedException thrown when calculation fails
+     */
+    public final void solve() throws CalculationFailedException {
         // Follow the standard procedure - get the characteristic equation and find its roots.
         Polynomial characteristicEqn = diffEqn.getCharacteristicEquation();
         IPolynomialSolver solver = PolynomialSolverFactory.getSolverForPolynomial(characteristicEqn);
@@ -43,9 +66,9 @@ public class LuckyGuessSolver {
         generalSolution = new GeneralSolution(basis);
 
         // Get the solution component for the independent equation
-        Polynomial mainPolynomial = new Polynomial(new Double[] { 1.0, 0.0, 0.0});
+        Polynomial mainPolynomial = new Polynomial(new Double[] {1.0, 0.0, 0.0});
 
-        SolutionComponent independentComponent = new SolutionComponent(
+        EquationComponent independentComponent = new EquationComponent(
                 mainPolynomial,
                 Exponential.getSingularExponential(),
                 SineAndCosine.getSingularSineAndCosine());
@@ -61,53 +84,73 @@ public class LuckyGuessSolver {
             }
         }
 
-        // Based on the multiplier of the root, find an appropriate (single argument) polynomial, to multiply the independent eqn.
+        // Based on the multiplier of the root, find an appropriate (single
+        // argument) polynomial, to multiply the independent eqn.
         Polynomial multiplierPolynomial = Polynomial.getSingleArgumentPolynomialOfDegree(rootMultiplier);
 
-        // Create parameter names
+        // Create parameter names.
         String[] params = ParametrisedPolynomial.getDefaultParamsOfCount(mainPolynomial.getDegree() + 1);
 
-        //TODO: Full component should be placed here
+        // Multiply the independent equation.
         ParametrisedPolynomial paramPoly = new ParametrisedPolynomial(params);
         paramPoly = paramPoly.multiplyByPolynomial(multiplierPolynomial);
 
-        ParametrisedPolynomial totalPoly = paramPoly.multiplyByScalar(diffEqn.getCoefficientForDegree(0));
-        ParametrisedPolynomial differentiatedPoly = paramPoly;
+        ParametrisedComponent totalComponent = new ParametrisedComponent();
+        totalComponent.setExponential(independentComponent.getExponential());
+        totalComponent.setPolynomial(paramPoly.multiplyByScalar(diffEqn.getCoefficientForDegree(0)));
 
+        ParametrisedComponent differentiatedComponent = new ParametrisedComponent();
+        differentiatedComponent.setExponential(independentComponent.getExponential());
+        differentiatedComponent.setPolynomial(paramPoly);
+
+        // Perform the differentiation.
         int differentialEquationDegree = diffEqn.getDegree();
 
+        // For each derivative degree, calculate the parametrised polynomial and substitute to differential equation.
         for (int i = 1; i <= differentialEquationDegree; i++) {
-            differentiatedPoly = differentiatedPoly.differentiate();
-            totalPoly = totalPoly.add(differentiatedPoly.multiplyByScalar(diffEqn.getCoefficientForDegree(i)));
+            differentiatedComponent = differentiatedComponent.differentiate();
+            totalComponent = totalComponent.add(differentiatedComponent
+                    .multiplyByScalar(diffEqn.getCoefficientForDegree(i)));
         }
 
-        Double[][] parametrisedPolyMatrix = totalPoly.getParamMatrix();
+        // Prepare the matrix equation of form A*x = b, where A is parameter
+        // matrix and b is a vector of polynomial coefficients.
+        Double[][] parametrisedPolyMatrix = totalComponent.getPolynomial().getParamMatrix();
         Double[] mainPolynomialCoefficients = new Double[mainPolynomial.getDegree() + 1];
         for (int i = 0; i <= mainPolynomial.getDegree(); i++) {
             mainPolynomialCoefficients[i] = mainPolynomial.getCoefficient(i);
         }
 
+        // Create the solver.
         ParameterMatrixSolver matrixSolver = new ParameterMatrixSolver(
                 parametrisedPolyMatrix, mainPolynomialCoefficients);
+
+        // Do the calculation.
         try {
             Double[] paramsSolution = matrixSolver.solve();
 
             Polynomial polynomial = paramPoly.getPolynomialForParameterValues(paramsSolution);
 
-            particularSolution = polynomial.toString();
+            particularSolution = new ParticularSolution(new SolutionComponent(
+                    polynomial, totalComponent.getExponential(),
+                    SineAndCosine.getSingularSineAndCosine()));
+
         } catch (WrongParameterMatrixException e) {
-            // TODO: handle exception
+            throw new CalculationFailedException(CalculationFailedReason.NO_SOLVABLE_PARAMETER_MATRIX_FOUND);
         }
     }
 
     /**
-     * @return the generalSolution
+     * @return general solution
      */
     public final GeneralSolution getGeneralSolution() {
         return generalSolution;
     }
 
-    public String getParticularSolution() {
+    /**
+     * @return particular solution
+     */
+    public final ParticularSolution getParticularSolution() {
         return particularSolution;
     }
 
@@ -116,7 +159,7 @@ public class LuckyGuessSolver {
         if (generalSolution == null) {
             return "Not yet solved!";
         } else {
-            return generalSolution.toString() + " + " + particularSolution;
+            return generalSolution.toString() + " + " + particularSolution.toString();
         }
     }
 

@@ -10,7 +10,7 @@ import pl.org.tomaszjaneczko.mouproject.math.Exponential;
 import pl.org.tomaszjaneczko.mouproject.math.Polynomial;
 import pl.org.tomaszjaneczko.mouproject.math.SineAndCosine;
 import pl.org.tomaszjaneczko.mouproject.math.ode.SolutionBasis;
-import pl.org.tomaszjaneczko.mouproject.math.ode.SolutionComponent;
+import pl.org.tomaszjaneczko.mouproject.math.ode.EquationComponent;
 
 public class SolutionBasisTest {
 
@@ -20,9 +20,9 @@ public class SolutionBasisTest {
             ComplexNumber[] roots = new ComplexNumber[] { new ComplexNumber(0.0, 0.0) };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component = new SolutionComponent(
+            EquationComponent component = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     Exponential.getSingularExponential(),
                     SineAndCosine.getSingularSineAndCosine());
@@ -40,14 +40,14 @@ public class SolutionBasisTest {
             };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component1 = new SolutionComponent(
+            EquationComponent component1 = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     Exponential.getSingularExponential(),
                     SineAndCosine.getSingularSineAndCosine());
 
-            SolutionComponent component2 = new SolutionComponent(
+            EquationComponent component2 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0}),
                     Exponential.getSingularExponential(),
                     SineAndCosine.getSingularSineAndCosine());
@@ -65,19 +65,19 @@ public class SolutionBasisTest {
             };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component1 = new SolutionComponent(
+            EquationComponent component1 = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     Exponential.getSingularExponential(),
                     SineAndCosine.getSingularSineAndCosine());
 
-            SolutionComponent component2 = new SolutionComponent(
+            EquationComponent component2 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0}),
                     Exponential.getSingularExponential(),
                     SineAndCosine.getSingularSineAndCosine());
 
-            SolutionComponent component3 = new SolutionComponent(
+            EquationComponent component3 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0, 0.0}),
                     Exponential.getSingularExponential(),
                     SineAndCosine.getSingularSineAndCosine());
@@ -94,9 +94,9 @@ public class SolutionBasisTest {
             ComplexNumber[] roots = new ComplexNumber[] { new ComplexNumber(1.0, 0.0) };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component = new SolutionComponent(
+            EquationComponent component = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     new Exponential(1.0),
                     SineAndCosine.getSingularSineAndCosine());
@@ -114,14 +114,14 @@ public class SolutionBasisTest {
             };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component1 = new SolutionComponent(
+            EquationComponent component1 = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     new Exponential(1.0),
                     SineAndCosine.getSingularSineAndCosine());
 
-            SolutionComponent component2 = new SolutionComponent(
+            EquationComponent component2 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0}),
                     new Exponential(1.0),
                     SineAndCosine.getSingularSineAndCosine());
@@ -139,19 +139,19 @@ public class SolutionBasisTest {
             };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component1 = new SolutionComponent(
+            EquationComponent component1 = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     new Exponential(1.0),
                     SineAndCosine.getSingularSineAndCosine());
 
-            SolutionComponent component2 = new SolutionComponent(
+            EquationComponent component2 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0}),
                     new Exponential(1.0),
                     SineAndCosine.getSingularSineAndCosine());
 
-            SolutionComponent component3 = new SolutionComponent(
+            EquationComponent component3 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0, 0.0}),
                     new Exponential(1.0),
                     SineAndCosine.getSingularSineAndCosine());
@@ -171,9 +171,9 @@ public class SolutionBasisTest {
             };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component1 = new SolutionComponent(
+            EquationComponent component1 = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     Exponential.getSingularExponential(),
                     new SineAndCosine(
@@ -193,16 +193,16 @@ public class SolutionBasisTest {
             };
 
             SolutionBasis basis = new SolutionBasis(roots);
-            Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+            Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-            SolutionComponent component1 = new SolutionComponent(
+            EquationComponent component1 = new EquationComponent(
                     Polynomial.getSingularPolynomial(),
                     Exponential.getSingularExponential(),
                     new SineAndCosine(
                             1.0, Polynomial.getSingularPolynomial(),
                             Polynomial.getSingularPolynomial()));
 
-            SolutionComponent component2 = new SolutionComponent(
+            EquationComponent component2 = new EquationComponent(
                     new Polynomial(new Double[] {1.0, 0.0}),
                     Exponential.getSingularExponential(),
                     new SineAndCosine(
@@ -225,30 +225,30 @@ public class SolutionBasisTest {
         };
 
         SolutionBasis basis = new SolutionBasis(roots);
-        Set<SolutionComponent> solutionComponents = basis.getSolutionComponents();
+        Set<EquationComponent> solutionComponents = basis.getSolutionComponents();
 
-        SolutionComponent component1 = new SolutionComponent(
+        EquationComponent component1 = new EquationComponent(
                 Polynomial.getSingularPolynomial(),
                 new Exponential(-1.0),
                 new SineAndCosine(
                         1.0, Polynomial.getSingularPolynomial(),
                         Polynomial.getZeroPolynomial()));
 
-        SolutionComponent component2 = new SolutionComponent(
+        EquationComponent component2 = new EquationComponent(
                 Polynomial.getSingularPolynomial(),
                 new Exponential(-1.0),
                 new SineAndCosine(
                         1.0, Polynomial.getZeroPolynomial(),
                         Polynomial.getSingularPolynomial()));
 
-        SolutionComponent component3 = new SolutionComponent(
+        EquationComponent component3 = new EquationComponent(
                 new Polynomial(new Double[] {1.0, 0.0}),
                 new Exponential(-1.0),
                 new SineAndCosine(
                         1.0, Polynomial.getSingularPolynomial(),
                         Polynomial.getZeroPolynomial()));
 
-        SolutionComponent component4 = new SolutionComponent(
+        EquationComponent component4 = new EquationComponent(
                 new Polynomial(new Double[] {1.0, 0.0}),
                 new Exponential(-1.0),
                 new SineAndCosine(

@@ -19,7 +19,7 @@ import pl.org.tomaszjaneczko.mouproject.math.SineAndCosine;
 public class SolutionBasis {
 
     /** Solution components in the solution basis. */
-    private final Set<SolutionComponent> solutionComponents;
+    private final Set<EquationComponent> solutionComponents;
 
 
     /**
@@ -27,7 +27,7 @@ public class SolutionBasis {
      * @param roots used to determine the solution components.
      */
     public SolutionBasis(final ComplexNumber[] roots) {
-        solutionComponents = new HashSet<SolutionComponent>();
+        solutionComponents = new HashSet<EquationComponent>();
 
         findSolutionComponents(roots);
     }
@@ -36,13 +36,13 @@ public class SolutionBasis {
      * No-arg constructor.
      */
     public SolutionBasis() {
-        solutionComponents = new HashSet<SolutionComponent>();
+        solutionComponents = new HashSet<EquationComponent>();
     }
 
     /**
      * @return the solutionComponents
      */
-    public Set<SolutionComponent> getSolutionComponents() {
+    public Set<EquationComponent> getSolutionComponents() {
         return solutionComponents;
     }
 
@@ -97,7 +97,7 @@ public class SolutionBasis {
                             Polynomial.getSingularPolynomial());
                 }
 
-                solutionComponents.add(new SolutionComponent(poly, exponential, sineAndCosine));
+                solutionComponents.add(new EquationComponent(poly, exponential, sineAndCosine));
             }
         }
     }
