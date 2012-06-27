@@ -1,0 +1,34 @@
+h1. Method of Undetermined Coefficients Project
+
+h2. Description
+This is a project which allows simple solving of linear differential equations with constant coefficients using the method of undetermined coefficients (known also as a lucky guess method). The aim is to provide object-oriented base for solving this problem, as well as a place for enhancements.
+
+h2. Features
+* Solving of differential equations up to 2nd degree is implemented.
+* Solving of polynomial and exponential is available
+
+h2. Possible enhancements
+* Easy extension to higher degrees just by providing polynomial root finders of higher degrees
+* Extension to include trig functions should be straightforward
+
+h2. Used technologies and libraries
+* Plain old JAVA
+* Commons math Apache library (readme and license @ http://commons.apache.org/math/)
+* Java Matrix Package used for solving the linear system of equations (http://math.nist.gov/javanumerics/jama/)
+* Standard Widget Toolkit for UI (http://www.eclipse.org/swt/)
+
+h2. Project structure
+Project is divided into two parts:
+* The source for the application
+* JUnit tests project
+
+
+
+h2. License
+This software is released under a MIT license. See the full description in the LICENSE file.
+
+
+
+
+
+
