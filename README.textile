@@ -27,6 +27,7 @@ Project is divided into two parts:
 h2. License
 
 This software is released under a MIT license. See the full description in the LICENSE file.
+Third-party libraries are under their respecitve licenses (i.e. SWT library is released under Eclipse Public License (http://www.eclipse.org/legal/epl-v10.html))
 
 
 
