@@ -1,11 +1,11 @@
 /**
- * 
  */
 package pl.org.tomaszjaneczko.mouproject;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Group;
@@ -15,13 +15,14 @@ import org.eclipse.swt.widgets.Text;
 
 /**
  * @author tomaszj
- * 
  */
 public class EquationView {
     /** Result Text View. */
     private Text resultText;
-    private Text text_2;
-
+    /** Polynomial Text View. */
+    private Text polynomialText;
+    /** Exponential coefficient Text View. */
+    private Text expText;
     /** Second derivative Text View. */
     private Text d2yText;
     /** First derivative Text View. */
@@ -32,8 +33,7 @@ public class EquationView {
     private Button solveButton;
     /** EquationGroup. */
     private Group grpRwnanie;
-    /** Form data. */
-    private FormData fd_resultText;
+
 
     /**
      * Constructor for the view.
@@ -41,67 +41,89 @@ public class EquationView {
      */
     public EquationView(final Shell context) {
         resultText = new Text(context, SWT.BORDER);
-        fd_resultText = new FormData();
-        resultText.setLayoutData(fd_resultText);
+        resultText.setEditable(false);
+        FormData fdResultText = new FormData();
+        resultText.setLayoutData(fdResultText);
 
         solveButton = new Button(context, SWT.CENTER);
-        fd_resultText.top = new FormAttachment(solveButton, 6);
-        FormData fd_solveButton = new FormData();
-        fd_solveButton.width = 170;
-        fd_solveButton.left = new FormAttachment(0, 162);
-        fd_solveButton.right = new FormAttachment(100, -166);
-        solveButton.setLayoutData(fd_solveButton);
+        fdResultText.top = new FormAttachment(solveButton, 6);
+        FormData fdSolveButton = new FormData();
+        fdSolveButton.right = new FormAttachment(0, 375);
+        fdSolveButton.left = new FormAttachment(0, 162);
+        solveButton.setLayoutData(fdSolveButton);
         solveButton.setText("Rozwiąż!");
 
         grpRwnanie = new Group(context, SWT.NONE);
-        fd_resultText.right = new FormAttachment(grpRwnanie, -20, SWT.RIGHT);
-        fd_solveButton.top = new FormAttachment(grpRwnanie, 6);
-        RowLayout rl_grpRwnanie = new RowLayout(SWT.HORIZONTAL);
-        rl_grpRwnanie.marginLeft = 5;
-        rl_grpRwnanie.marginTop = 8;
-        grpRwnanie.setLayout(rl_grpRwnanie);
-        FormData fd_grpRwnanie = new FormData();
-        fd_grpRwnanie.bottom = new FormAttachment(0, 65);
-        fd_grpRwnanie.right = new FormAttachment(0, 412);
-        fd_grpRwnanie.top = new FormAttachment(0, 10);
-        fd_grpRwnanie.left = new FormAttachment(0, 10);
-        grpRwnanie.setLayoutData(fd_grpRwnanie);
+        fdResultText.left = new FormAttachment(grpRwnanie, -493);
+        fdResultText.right = new FormAttachment(grpRwnanie, 0, SWT.RIGHT);
+        fdSolveButton.top = new FormAttachment(0, 71);
+        RowLayout rlGrpRwnanie = new RowLayout(SWT.HORIZONTAL);
+        rlGrpRwnanie.marginLeft = 5;
+        rlGrpRwnanie.marginTop = 8;
+        grpRwnanie.setLayout(rlGrpRwnanie);
+        FormData fdGrpRwnanie = new FormData();
+        fdGrpRwnanie.bottom = new FormAttachment(solveButton, -6);
+        fdGrpRwnanie.top = new FormAttachment(0, 10);
+        fdGrpRwnanie.left = new FormAttachment(0, 10);
+        fdGrpRwnanie.right = new FormAttachment(0, 531);
+        grpRwnanie.setLayoutData(fdGrpRwnanie);
         grpRwnanie.setText("Równanie");
 
         d2yText = new Text(grpRwnanie, SWT.BORDER);
+        d2yText.setToolTipText("Wpisz stałą wartość.");
+        d2yText.setLayoutData(new RowData(32, SWT.DEFAULT));
 
         Label lblY = new Label(grpRwnanie, SWT.NONE);
         lblY.setText("y''");
 
-        Label label_1 = new Label(grpRwnanie, SWT.NONE);
-        label_1.setText("+");
+        Label label1 = new Label(grpRwnanie, SWT.NONE);
+        label1.setText("+");
 
         dyText = new Text(grpRwnanie, SWT.BORDER);
+        dyText.setToolTipText("Wpisz stałą wartość.");
+        dyText.setLayoutData(new RowData(32, SWT.DEFAULT));
 
-        Label lblY_1 = new Label(grpRwnanie, SWT.NONE);
-        lblY_1.setText("y'");
+        Label lblY1 = new Label(grpRwnanie, SWT.NONE);
+        lblY1.setText("y'");
 
-        Label label_2 = new Label(grpRwnanie, SWT.NONE);
-        label_2.setText("+");
+        Label label2 = new Label(grpRwnanie, SWT.NONE);
+        label2.setText("+");
 
         yText = new Text(grpRwnanie, SWT.BORDER);
+        yText.setToolTipText("Wpisz stałą wartość.");
+        yText.setLayoutData(new RowData(32, SWT.DEFAULT));
 
-        Label lblY_2 = new Label(grpRwnanie, SWT.NONE);
-        lblY_2.setText("y");
+        Label lblY2 = new Label(grpRwnanie, SWT.NONE);
+        lblY2.setText("y");
 
         Label label = new Label(grpRwnanie, SWT.NONE);
         label.setAlignment(SWT.CENTER);
         label.setText("=");
 
-        text_2 = new Text(grpRwnanie, SWT.BORDER);
+        polynomialText = new Text(grpRwnanie, SWT.BORDER);
+        polynomialText.setToolTipText("Wpisz wielomian o postaci a*x^m{+|-}b*x^m{+|-} … . Przykład: 2*x^2-10*x+5.5");
+        polynomialText.setLayoutData(new RowData(126, SWT.DEFAULT));
 
-        Label lblY_3 = new Label(context, SWT.NONE);
-        fd_resultText.left = new FormAttachment(lblY_3, 6);
-        FormData fd_lblY_3 = new FormData();
-        fd_lblY_3.top = new FormAttachment(grpRwnanie, 43);
-        fd_lblY_3.left = new FormAttachment(0, 10);
-        lblY_3.setLayoutData(fd_lblY_3);
-        lblY_3.setText("y =");
+        Label lblY3 = new Label(context, SWT.NONE);
+        FormData fdLblY3 = new FormData();
+        fdLblY3.top = new FormAttachment(grpRwnanie, 43);
+
+        Label lblXExp = new Label(grpRwnanie, SWT.NONE);
+        lblXExp.setFont(SWTResourceManager.getFont("Lucida Grande", 16, SWT.NORMAL));
+        lblXExp.setLayoutData(new RowData(SWT.DEFAULT, 22));
+        lblXExp.setText("x exp(");
+
+        expText = new Text(grpRwnanie, SWT.BORDER);
+        expText.setToolTipText("Wpisz stałą wartość.");
+        expText.setLayoutData(new RowData(32, SWT.DEFAULT));
+
+        Label lblx = new Label(grpRwnanie, SWT.NONE);
+        lblx.setText("*x)");
+        lblx.setFont(SWTResourceManager.getFont("Lucida Grande", 16, SWT.NORMAL));
+        fdLblY3.left = new FormAttachment(0, 10);
+        lblY3.setLayoutData(fdLblY3);
+        lblY3.setText("y =");
+
     }
 
     /**
@@ -114,8 +136,8 @@ public class EquationView {
     /**
      * @return the text_2
      */
-    public final Text getText_2() {
-        return text_2;
+    public final Text getPolynomialText() {
+        return polynomialText;
     }
 
     /**
@@ -146,5 +168,10 @@ public class EquationView {
         return solveButton;
     }
 
-
+    /**
+     * @return the expText
+     */
+    public final Text getExpText() {
+        return expText;
+    }
 }

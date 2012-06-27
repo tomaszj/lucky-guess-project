@@ -42,7 +42,7 @@ public class SolutionBasis {
     /**
      * @return the solutionComponents
      */
-    public Set<EquationComponent> getSolutionComponents() {
+    public final Set<EquationComponent> getSolutionComponents() {
         return solutionComponents;
     }
 

@@ -23,8 +23,11 @@ public class LuckyGuessSolver {
     /** Homogenous differential equation. */
     private HomogenousDifferentialEquation diffEqn;
 
-    /** Independent equation (of x variable). */
-    private String independentEqn;
+    /** Independent polynomial (of x variable). */
+    private Polynomial polynomialEquation;
+
+    /** Exponential coefficient. */
+    private Double exponentialCoefficient;
 
     /** General solution of the DE. */
     private GeneralSolution generalSolution;
@@ -41,12 +44,17 @@ public class LuckyGuessSolver {
      *            Coefficients for derivatives of y
      * @param nonDiffCoefficient
      *            Coefficient for y
-     * @param indieEqn
+     * @param polynomialEqn
      *            Independent equation
+     * @param exponentialCoeff
+     *            Exponential coefficient
      */
-    public LuckyGuessSolver(final Double[] diffCoefficients, final Double nonDiffCoefficient, final String indieEqn) {
+    public LuckyGuessSolver(final Double[] diffCoefficients,
+            final Double nonDiffCoefficient, final Polynomial polynomialEqn,
+            final Double exponentialCoeff) {
         diffEqn = new HomogenousDifferentialEquation(diffCoefficients, nonDiffCoefficient);
-        independentEqn = indieEqn;
+        polynomialEquation = polynomialEqn;
+        exponentialCoefficient = exponentialCoeff;
     }
 
     /**
@@ -66,11 +74,9 @@ public class LuckyGuessSolver {
         generalSolution = new GeneralSolution(basis);
 
         // Get the solution component for the independent equation
-        Polynomial mainPolynomial = new Polynomial(new Double[] {1.0, 0.0, 0.0});
-
         EquationComponent independentComponent = new EquationComponent(
-                mainPolynomial,
-                Exponential.getSingularExponential(),
+                polynomialEquation,
+                new Exponential(exponentialCoefficient),
                 SineAndCosine.getSingularSineAndCosine());
 
         // Check if the independent coefficient is a root of characteristic equation
@@ -89,7 +95,9 @@ public class LuckyGuessSolver {
         Polynomial multiplierPolynomial = Polynomial.getSingleArgumentPolynomialOfDegree(rootMultiplier);
 
         // Create parameter names.
-        String[] params = ParametrisedPolynomial.getDefaultParamsOfCount(mainPolynomial.getDegree() + 1);
+        String[] params = ParametrisedPolynomial
+                .getDefaultParamsOfCount(independentComponent.getPolynomial()
+                        .getDegree() + 1);
 
         // Multiply the independent equation.
         ParametrisedPolynomial paramPoly = new ParametrisedPolynomial(params);
@@ -116,9 +124,9 @@ public class LuckyGuessSolver {
         // Prepare the matrix equation of form A*x = b, where A is parameter
         // matrix and b is a vector of polynomial coefficients.
         Double[][] parametrisedPolyMatrix = totalComponent.getPolynomial().getParamMatrix();
-        Double[] mainPolynomialCoefficients = new Double[mainPolynomial.getDegree() + 1];
-        for (int i = 0; i <= mainPolynomial.getDegree(); i++) {
-            mainPolynomialCoefficients[i] = mainPolynomial.getCoefficient(i);
+        Double[] mainPolynomialCoefficients = new Double[independentComponent.getPolynomial().getDegree() + 1];
+        for (int i = 0; i <= independentComponent.getPolynomial().getDegree(); i++) {
+            mainPolynomialCoefficients[i] = independentComponent.getPolynomial().getCoefficient(i);
         }
 
         // Create the solver.
@@ -159,7 +167,12 @@ public class LuckyGuessSolver {
         if (generalSolution == null) {
             return "Not yet solved!";
         } else {
-            return generalSolution.toString() + " + " + particularSolution.toString();
+            if (particularSolution.isZeroSolution()) {
+                // If the particular solution is empty
+                return generalSolution.toString();
+            } else {
+                return generalSolution.toString() + " + " + particularSolution.toString();
+            }
         }
     }
 
