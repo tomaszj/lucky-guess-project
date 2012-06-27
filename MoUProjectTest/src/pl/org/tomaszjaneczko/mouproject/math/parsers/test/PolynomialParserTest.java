@@ -121,5 +121,26 @@ public class PolynomialParserTest {
         parser.parseString(expressionString4);
     }
 
+    public void testIfHandlesWhitespace() throws ParseException {
+        String expressionString = "x^2 + x + 1";
+        Polynomial parsedPoly = parser.parseString(expressionString);
+        assertEquals(parsedPoly, new Polynomial(new Double[] {1.0, 1.0, 1.0}));
+
+        String expressionString2 = "-x^2 + x + 1";
+        Polynomial parsedPoly2 = parser.parseString(expressionString2);
+        assertEquals(parsedPoly2, new Polynomial(new Double[] {-1.0, 1.0, 1.0}));
+
+        String expressionString3 = "1.0*x^2 + 1.0*x - 1.0";
+        Polynomial parsedPoly3 = parser.parseString(expressionString3);
+        assertEquals(parsedPoly3, new Polynomial(new Double[] {1.0, 1.0, -1.0}));
+
+        String expressionString4 = "-1.0 * x^2 - 1.0 * x + 5.0";
+        Polynomial parsedPoly4 = parser.parseString(expressionString4);
+        assertEquals(parsedPoly4, new Polynomial(new Double[] {-1.0, -1.0, 5.0}));
+
+        String expressionString5 = "-5.0 * x^2- 5.0*x-5.0";
+        Polynomial parsedPoly5 = parser.parseString(expressionString5);
+        assertEquals(parsedPoly5, new Polynomial(new Double[] {-5.0, -5.0, -5.0}));
+    }
 
 }

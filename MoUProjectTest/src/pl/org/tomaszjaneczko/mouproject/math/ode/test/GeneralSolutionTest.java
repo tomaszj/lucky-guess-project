@@ -33,7 +33,7 @@ public class GeneralSolutionTest {
 
         assertTrue(generalSolutionString.contains("(1.0*x+1.0)*e^(5.0*x)*((1.0)*sin(3.0*x)+(1.0)*cos(3.0*x))"));
         assertTrue(generalSolutionString.contains("C0*"));
-        assertTrue(generalSolutionString.contains("(1.0*x+1.0)*e^(3.0*x)*((1.0)*sin(3.0*x)+(1.0)*cos(3.0*x))"));
+        assertTrue(generalSolutionString.contains("1.0*e^(3.0*x)*((1.0)*sin(3.0*x)+(1.0)*cos(3.0*x))"));
         assertTrue(generalSolutionString.contains("C1*"));
     }
 

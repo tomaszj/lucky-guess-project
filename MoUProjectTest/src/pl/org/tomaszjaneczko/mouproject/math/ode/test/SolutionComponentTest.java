@@ -59,7 +59,7 @@ public class SolutionComponentTest {
     }
 
     public static EquationComponent getDifferentSolutionComponent() {
-        Polynomial polynomial = new Polynomial(new Double[] {1.0, 1.0});
+        Polynomial polynomial = new Polynomial(new Double[] {1.0});
         Exponential exponential = new Exponential(3.0);
 
         Polynomial trigPoly = new Polynomial(new Double[] {1.0});
@@ -77,7 +77,7 @@ public class SolutionComponentTest {
         SineAndCosine sinAndCos = SineAndCosine.getSingularSineAndCosine();
         EquationComponent component = new EquationComponent(polynomial, exponential, sinAndCos);
 
-        assertEquals("(1.0)", component.toString());
+        assertEquals("1.0", component.toString());
     }
 
     /**
@@ -90,6 +90,11 @@ public class SolutionComponentTest {
         assertEquals(
                 "(1.0*x+1.0)*e^(5.0*x)*((1.0)*sin(3.0*x)+(1.0)*cos(3.0*x))",
                 component.toString());
+
+        EquationComponent component2 = getDifferentSolutionComponent();
+
+        assertEquals("1.0*e^(3.0*x)*((1.0)*sin(3.0*x)+(1.0)*cos(3.0*x))", component2.toString());
+
     }
 
 
