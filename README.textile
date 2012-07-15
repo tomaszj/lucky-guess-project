@@ -11,6 +11,7 @@ h2. Features
 h2. Possible enhancements
 * Easy extension to higher degrees just by providing polynomial root finders of higher degrees
 * Extension to include trig functions should be straightforward
+* Adding localisation handling (currently user messages are in Polish, let me know if you'd like to see proper internationalisation)
 
 h2. Used technologies and libraries
 * Plain old JAVA
